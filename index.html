@@ -1,0 +1,141 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>外刊笔译练习小屋</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-decor bg-cloud cloud-a"></div>
+  <div class="bg-decor bg-cloud cloud-b"></div>
+  <div class="bg-decor bg-star star-a"></div>
+  <div class="bg-decor bg-star star-b"></div>
+  <div class="bg-decor bg-dot dot-a"></div>
+  <div class="bg-decor bg-dot dot-b"></div>
+
+  <main class="page-wrap">
+    <section class="hero card">
+      <h1>外刊笔译练习小屋</h1>
+      <p>每天一点点，把“看懂”慢慢练成“译得顺”。</p>
+    </section>
+
+    <section class="card section-block">
+      <div class="section-head">
+        <h2>文章列表</h2>
+        <span id="articleCount" class="muted"></span>
+      </div>
+      <div id="articleList" class="article-list"></div>
+    </section>
+
+    <section class="card section-block">
+      <div class="section-head">
+        <h2>文章阅读区</h2>
+        <span id="currentArticleMeta" class="muted"></span>
+      </div>
+      <div id="articleReader" class="article-reader"></div>
+    </section>
+
+    <section class="card section-block">
+      <div class="section-head">
+        <h2>当前段落练习</h2>
+        <span id="currentParagraphMeta" class="muted"></span>
+      </div>
+      <div class="practice-box">
+        <div>
+          <h3>原文段落</h3>
+          <p id="practiceSource" class="practice-source">请先从上方文章中选择一段开始练习。</p>
+          <p id="techniqueHint" class="technique-hint"></p>
+        </div>
+
+        <div>
+          <label for="myTranslation"><h3>我的译文</h3></label>
+          <textarea id="myTranslation" rows="6" placeholder="在这里输入你的译文..."></textarea>
+        </div>
+
+        <div class="reference-wrap">
+          <button id="toggleReferenceBtn" class="btn secondary" type="button">展开参考译文</button>
+          <div id="referencePanel" class="reference-panel hidden">
+            <h3>参考译文</h3>
+            <p id="referenceText"></p>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="analyzeBtn" class="btn primary" type="button">开始对照分析</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section-block" id="analysisSection">
+      <div class="section-head">
+        <h2>差异分析区</h2>
+      </div>
+      <p id="analysisSummary" class="analysis-summary">完成一段翻译后，点击“开始对照分析”查看差异与建议。</p>
+      <div id="issueTags" class="issue-tags"></div>
+      <div class="compare-grid">
+        <div>
+          <h3>我的译文（对照分析）</h3>
+          <div id="myDiffView" class="diff-box"></div>
+        </div>
+        <div>
+          <h3>参考译文（对照分析）</h3>
+          <div id="refDiffView" class="diff-box"></div>
+        </div>
+      </div>
+      <div>
+        <h3>改进建议</h3>
+        <ul id="suggestions" class="suggestions"></ul>
+      </div>
+    </section>
+
+    <section class="card section-block">
+      <div class="section-head">
+        <h2>复盘区</h2>
+        <span class="muted">按文章 + 段落自动关联</span>
+      </div>
+      <div class="review-grid">
+        <label>
+          我的问题
+          <textarea id="reviewProblem" rows="3" placeholder="这段我最容易卡住的点是..."></textarea>
+        </label>
+        <label>
+          学到的表达
+          <textarea id="reviewLearned" rows="3" placeholder="这次新学到的表达是..."></textarea>
+        </label>
+        <label>
+          可偷的句式/术语
+          <textarea id="reviewPattern" rows="3" placeholder="下次可直接调用的句式或术语..."></textarea>
+        </label>
+        <label>
+          下次提醒自己
+          <textarea id="reviewReminder" rows="3" placeholder="下一次我准备这样做得更好..."></textarea>
+        </label>
+      </div>
+      <div class="action-row">
+        <button id="saveReviewBtn" class="btn primary" type="button">保存复盘</button>
+        <button id="exportJsonBtn" class="btn secondary" type="button">导出备份</button>
+        <button id="importJsonBtn" class="btn secondary" type="button">导入备份</button>
+        <button id="exportWordBtn" class="btn secondary" type="button">导出 Word</button>
+        <button id="exportPdfBtn" class="btn secondary" type="button">导出 PDF</button>
+        <input id="importJsonInput" class="hidden" type="file" accept=".json,application/json" />
+        <span id="saveHint" class="save-hint"></span>
+      </div>
+    </section>
+  </main>
+
+  <button id="ruleToggleBtn" class="rule-fab" type="button">规则小抄</button>
+
+  <aside id="rulePanel" class="rule-panel hidden" aria-hidden="true">
+    <div class="rule-header">
+      <h3>这次可能会用到的规则</h3>
+      <button id="closeRuleBtn" class="close-btn" type="button">关闭</button>
+    </div>
+    <p class="rule-tip">不用全记住，卡住时看一眼就够了。</p>
+    <div class="rule-cards" id="ruleCards"></div>
+  </aside>
+
+  <script src="articles.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
