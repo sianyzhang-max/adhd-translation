@@ -1,6 +1,6 @@
 ﻿(function () {
   const STORAGE_KEY = "translation_review_records_v1";
-  const HOME_PREVIEW_COUNT = 4;
+  const HOME_PREVIEW_COUNT = 3;
 
   const state = {
     articleIndex: 0,
