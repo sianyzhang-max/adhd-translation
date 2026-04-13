@@ -1,5 +1,6 @@
 ﻿(function () {
   const STORAGE_KEY = "translation_review_records_v1";
+  const HOME_PREVIEW_COUNT = 4;
 
   const state = {
     articleIndex: 0,
@@ -19,8 +20,13 @@
   ];
 
   const dom = {
+    homeArticleSection: document.getElementById("homeArticleSection"),
+    allArticlesSection: document.getElementById("allArticlesSection"),
     articleCount: document.getElementById("articleCount"),
     articleList: document.getElementById("articleList"),
+    allArticleList: document.getElementById("allArticleList"),
+    viewAllArticlesBtn: document.getElementById("viewAllArticlesBtn"),
+    backHomeBtn: document.getElementById("backHomeBtn"),
     currentArticleMeta: document.getElementById("currentArticleMeta"),
     articleReader: document.getElementById("articleReader"),
     currentParagraphMeta: document.getElementById("currentParagraphMeta"),
@@ -563,28 +569,25 @@
       .join("");
   }
 
-  function renderArticleCards() {
-    dom.articleCount.textContent = "共 " + window.ARTICLES.length + " 篇";
-    dom.articleList.innerHTML = window.ARTICLES
-      .map(function (article, index) {
-        const activeClass = index === state.articleIndex ? "active" : "";
-        return (
-          "<article class=\"article-card " + activeClass + "\" data-article-index=\"" + index + "\">" +
-          "<h3>" + escapeHtml(article.titleZh) + "</h3>" +
-          "<p class=\"muted\">" + escapeHtml(article.title) + "</p>" +
-          "<div class=\"article-meta\">" +
-          "<span class=\"meta-chip\">来源: " + escapeHtml(article.source) + "</span>" +
-          "<span class=\"meta-chip\">日期: " + escapeHtml(article.articleDate) + "</span>" +
-          "<span class=\"meta-chip\">主题: " + escapeHtml(article.topic) + "</span>" +
-          "<span class=\"meta-chip\">难度: " + escapeHtml(article.difficulty) + "</span>" +
-          "</div>" +
-          "<p class=\"article-summary\">" + escapeHtml(article.summary) + "</p>" +
-          "</article>"
-        );
-      })
-      .join("");
+  function buildArticleCardHtml(article, index) {
+    const activeClass = index === state.articleIndex ? "active" : "";
+    return (
+      "<article class=\"article-card " + activeClass + "\" data-article-index=\"" + index + "\">" +
+      "<h3>" + escapeHtml(article.titleZh) + "</h3>" +
+      "<p class=\"muted\">" + escapeHtml(article.title) + "</p>" +
+      "<div class=\"article-meta\">" +
+      "<span class=\"meta-chip\">来源: " + escapeHtml(article.source) + "</span>" +
+      "<span class=\"meta-chip\">日期: " + escapeHtml(article.articleDate) + "</span>" +
+      "<span class=\"meta-chip\">主题: " + escapeHtml(article.topic) + "</span>" +
+      "<span class=\"meta-chip\">难度: " + escapeHtml(article.difficulty) + "</span>" +
+      "</div>" +
+      "<p class=\"article-summary\">" + escapeHtml(article.summary) + "</p>" +
+      "</article>"
+    );
+  }
 
-    dom.articleList.querySelectorAll(".article-card").forEach(function (card) {
+  function bindArticleCardClicks(container) {
+    container.querySelectorAll(".article-card").forEach(function (card) {
       card.addEventListener("click", function () {
         const nextIndex = Number(card.getAttribute("data-article-index"));
         state.articleIndex = nextIndex;
@@ -594,6 +597,32 @@
         renderAll();
       });
     });
+  }
+
+  function renderArticleCards() {
+    const previewCount = Math.min(HOME_PREVIEW_COUNT, window.ARTICLES.length);
+    dom.articleCount.textContent = "首页展示 " + previewCount + " 篇（共 " + window.ARTICLES.length + " 篇）";
+
+    dom.articleList.innerHTML = window.ARTICLES
+      .slice(0, previewCount)
+      .map(function (article, index) {
+        return buildArticleCardHtml(article, index);
+      })
+      .join("");
+
+    dom.allArticleList.innerHTML = window.ARTICLES
+      .map(function (article, index) {
+        return buildArticleCardHtml(article, index);
+      })
+      .join("");
+
+    bindArticleCardClicks(dom.articleList);
+    bindArticleCardClicks(dom.allArticleList);
+  }
+
+  function toggleArticleView(showAll) {
+    dom.homeArticleSection.classList.toggle("hidden", showAll);
+    dom.allArticlesSection.classList.toggle("hidden", !showAll);
   }
 
   function renderReader() {
@@ -738,6 +767,12 @@
     });
     dom.exportWordBtn.addEventListener("click", exportWordDoc);
     dom.exportPdfBtn.addEventListener("click", exportPdfPrint);
+    dom.viewAllArticlesBtn.addEventListener("click", function () {
+      toggleArticleView(true);
+    });
+    dom.backHomeBtn.addEventListener("click", function () {
+      toggleArticleView(false);
+    });
 
     dom.ruleToggleBtn.addEventListener("click", function () {
       dom.rulePanel.classList.toggle("hidden");

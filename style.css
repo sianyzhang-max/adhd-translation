@@ -242,6 +242,10 @@ textarea:focus {
   white-space: nowrap;
 }
 
+.article-switch-row {
+  margin-top: 12px;
+}
+
 .analysis-summary {
   margin: 0 0 12px;
   color: #3d6485;

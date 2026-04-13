@@ -20,12 +20,23 @@
       <p>每天一点点，把“看懂”慢慢练成“译得顺”。</p>
     </section>
 
-    <section class="card section-block">
+    <section id="homeArticleSection" class="card section-block">
       <div class="section-head">
-        <h2>文章列表</h2>
+        <h2>文章预览</h2>
         <span id="articleCount" class="muted"></span>
       </div>
       <div id="articleList" class="article-list"></div>
+      <div class="action-row article-switch-row">
+        <button id="viewAllArticlesBtn" class="btn secondary" type="button">查看全部文章</button>
+      </div>
+    </section>
+
+    <section id="allArticlesSection" class="card section-block hidden">
+      <div class="section-head">
+        <h2>全部文章</h2>
+        <button id="backHomeBtn" class="btn secondary" type="button">返回首页</button>
+      </div>
+      <div id="allArticleList" class="article-list"></div>
     </section>
 
     <section class="card section-block">
