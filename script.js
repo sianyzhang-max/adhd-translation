@@ -586,6 +586,23 @@
     );
   }
 
+  function getSortedArticleEntries() {
+    return window.ARTICLES
+      .map(function (article, originalIndex) {
+        return {
+          article: article,
+          originalIndex: originalIndex,
+          sortTime: Date.parse(article.articleDate) || 0
+        };
+      })
+      .sort(function (a, b) {
+        if (b.sortTime !== a.sortTime) {
+          return b.sortTime - a.sortTime;
+        }
+        return a.originalIndex - b.originalIndex;
+      });
+  }
+
   function bindArticleCardClicks(container) {
     container.querySelectorAll(".article-card").forEach(function (card) {
       card.addEventListener("click", function () {
@@ -600,19 +617,20 @@
   }
 
   function renderArticleCards() {
-    const previewCount = Math.min(HOME_PREVIEW_COUNT, window.ARTICLES.length);
+    const sortedEntries = getSortedArticleEntries();
+    const previewCount = Math.min(HOME_PREVIEW_COUNT, sortedEntries.length);
     dom.articleCount.textContent = "首页展示 " + previewCount + " 篇（共 " + window.ARTICLES.length + " 篇）";
 
-    dom.articleList.innerHTML = window.ARTICLES
+    dom.articleList.innerHTML = sortedEntries
       .slice(0, previewCount)
-      .map(function (article, index) {
-        return buildArticleCardHtml(article, index);
+      .map(function (entry) {
+        return buildArticleCardHtml(entry.article, entry.originalIndex);
       })
       .join("");
 
-    dom.allArticleList.innerHTML = window.ARTICLES
-      .map(function (article, index) {
-        return buildArticleCardHtml(article, index);
+    dom.allArticleList.innerHTML = sortedEntries
+      .map(function (entry) {
+        return buildArticleCardHtml(entry.article, entry.originalIndex);
       })
       .join("");
 
