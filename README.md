@@ -1,4 +1,4 @@
-# adhd-translation
+# English-translation
 #Practice English translation,  especially for adhd.简易练习英语翻译软件
 # 中英文可以对照分析！
 
