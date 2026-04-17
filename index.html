@@ -1,29 +1,844 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>外刊笔译练习小屋</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+/* ====== RESET & BASE ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ocean-deep:#1B6CA8;
+  --ocean-mid:#2E8BC0;
+  --ocean-light:#7EC8E3;
+  --ocean-pale:#D4F1F9;
+  --ocean-foam:#EAF7FC;
+  --coral:#FF8C7C;
+  --warm-orange:#FFB347;
+  --card-bg:rgba(255,255,255,0.92);
+  --card-shadow:0 4px 24px rgba(27,108,168,0.10);
+  --text-primary:#1a2a3a;
+  --text-secondary:#4a6a8a;
+  --text-muted:#7a9ab0;
+  --border-light:rgba(46,139,192,0.15);
+  --radius:16px;
+  --radius-sm:10px;
+  --radius-xs:6px;
+  --font-main:'Nunito','PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif;
+  --transition:0.3s cubic-bezier(.4,0,.2,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-main);
+  background:linear-gradient(170deg,#0D4B6E 0%,#1B6CA8 22%,#7EC8E3 55%,#B8E6F9 78%,#E8F8FF 100%);
+  min-height:100vh;
+  color:var(--text-primary);
+  line-height:1.7;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ====== OCEAN BACKGROUND DECORATIONS ====== */
+.bg-decor{
+  position:fixed;
+  pointer-events:none;
+  z-index:0;
+  font-size:3rem;
+  opacity:0.25;
+  animation:float-drift 20s ease-in-out infinite;
+}
+.ocean-a{top:8%;left:5%;font-size:4rem;animation-delay:0s;animation-duration:25s}
+.ocean-b{top:15%;right:8%;font-size:3.2rem;animation-delay:-3s;animation-duration:22s}
+.ocean-c{top:35%;left:12%;font-size:3rem;animation-delay:-6s;animation-duration:28s}
+.ocean-d{top:55%;right:15%;font-size:3.5rem;animation-delay:-9s;animation-duration:20s}
+.ocean-e{top:70%;left:8%;font-size:2.8rem;animation-delay:-12s;animation-duration:24s}
+.ocean-f{top:85%;right:5%;font-size:3rem;animation-delay:-4s;animation-duration:26s}
+.ocean-g{top:45%;left:80%;font-size:2.6rem;animation-delay:-7s;animation-duration:30s}
+.ocean-h{top:25%;left:50%;font-size:3rem;animation-delay:-15s;animation-duration:23s}
+.ocean-i{top:60%;left:45%;font-size:2.8rem;animation-delay:-2s;animation-duration:27s}
+.ocean-j{top:90%;left:30%;font-size:3.2rem;animation-delay:-8s;animation-duration:21s}
+.ocean-k{top:5%;left:65%;font-size:2.5rem;animation-delay:-11s;animation-duration:29s}
+.ocean-l{top:40%;right:5%;font-size:3rem;animation-delay:-5s;animation-duration:23s}
+
+@keyframes float-drift{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  25%{transform:translateY(-18px) rotate(5deg)}
+  50%{transform:translateY(8px) rotate(-3deg)}
+  75%{transform:translateY(-12px) rotate(2deg)}
+}
+
+/* ====== LAYOUT ====== */
+.page-wrap{
+  position:relative;
+  z-index:1;
+  max-width:960px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+/* ====== CONTENT AREA SEPARATION ====== */
+.content-area{
+  background:rgba(255,255,255,0.06);
+  border-radius:24px;
+  padding:8px 0;
+  margin-top:-12px;
+}
+
+/* ====== CARD ====== */
+.card{
+  background:#FFFFFF;
+  border-radius:20px;
+  padding:28px 32px;
+  margin-bottom:24px;
+  box-shadow:0 6px 30px rgba(13,75,110,0.12);
+  border:1px solid rgba(46,139,192,0.15);
+  overflow:visible;
+  word-break:break-word;
+}
+
+/* ====== HERO ====== */
+.hero{
+  text-align:center;
+  padding:56px 32px 0;
+  background:linear-gradient(135deg,#0D4B6E 0%,#1B6CA8 40%,#3DA5D9 100%);
+  border:none;
+  border-radius:20px 20px 0 0;
+  overflow:visible;
+  margin-bottom:0;
+  position:relative;
+}
+.hero h1{
+  font-size:3rem;
+  font-weight:800;
+  color:#FFFFFF;
+  text-shadow:0 4px 20px rgba(13,75,110,0.6), 0 2px 6px rgba(0,0,0,0.3);
+  margin-bottom:10px;
+  letter-spacing:-0.5px;
+}
+.hero p{
+  font-size:1.15rem;
+  color:#B8E8FF;
+  text-shadow:0 1px 8px rgba(13,75,110,0.4);
+  margin-bottom:0;
+  font-weight:600;
+}
+.hero-wave{
+  display:block;
+  width:100%;
+  margin-top:28px;
+  margin-bottom:-2px;
+  line-height:0;
+}
+.hero-wave svg{
+  display:block;
+  width:100%;
+  height:60px;
+}
+
+/* ====== SECTION ====== */
+.section-block{position:relative}
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.section-head h2{
+  font-size:1.35rem;
+  font-weight:700;
+  color:var(--ocean-deep);
+}
+.muted{color:var(--text-muted);font-size:0.9rem}
+.hidden{display:none!important}
+
+/* ====== BUTTONS ====== */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 22px;
+  border:none;
+  border-radius:24px;
+  font-family:var(--font-main);
+  font-size:0.95rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:var(--transition);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.btn.primary{
+  background:linear-gradient(135deg,var(--ocean-mid),var(--ocean-deep));
+  color:#fff;
+  box-shadow:0 3px 12px rgba(27,108,168,0.25);
+}
+.btn.primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(27,108,168,0.40);
+  filter:brightness(1.08);
+}
+.btn.secondary{
+  background:var(--ocean-foam);
+  color:var(--ocean-deep);
+  border:1.5px solid var(--border-light);
+}
+.btn.secondary:hover{
+  background:var(--ocean-pale);
+  border-color:var(--ocean-mid);
+}
+.btn.coral{
+  background:linear-gradient(135deg,var(--coral),#ff6b5a);
+  color:#fff;
+}
+.btn:active{transform:scale(0.97)}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none!important}
+
+/* ====== FETCH NEWS BTN ====== */
+.fetch-news-btn{margin-left:auto}
+
+/* ====== TOOLBAR ====== */
+.article-toolbar{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:16px;
+}
+.article-search{
+  width:100%;
+  padding:12px 20px;
+  border:2px solid rgba(46,139,192,0.2);
+  border-radius:24px;
+  font-size:0.95rem;
+  font-family:var(--font-main);
+  background:#fff;
+  transition:var(--transition);
+}
+.article-search:focus{
+  outline:none;
+  border-color:var(--ocean-mid);
+  box-shadow:0 0 0 4px rgba(46,139,192,0.12);
+}
+.filter-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.filter-tag{
+  padding:7px 16px;
+  border:1.5px solid rgba(46,139,192,0.25);
+  border-radius:20px;
+  background:#fff;
+  font-family:var(--font-main);
+  font-size:0.85rem;
+  font-weight:600;
+  cursor:pointer;
+  color:var(--text-secondary);
+  transition:var(--transition);
+}
+.filter-tag:hover{border-color:var(--ocean-mid);color:var(--ocean-mid)}
+.filter-tag.active{
+  background:linear-gradient(135deg,#2E8BC0,#1B6CA8);
+  color:#fff;
+  border-color:transparent;
+  box-shadow:0 3px 10px rgba(27,108,168,0.25);
+}
+
+/* ====== ARTICLE LIST (2-col grid) ====== */
+.article-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+  margin-bottom:16px;
+  overflow:visible;
+}
+@media(max-width:620px){.article-list{grid-template-columns:1fr}}
+
+/* ====== ARTICLE CARD ====== */
+.article-card{
+  background:#FFFFFF;
+  border-radius:20px;
+  padding:20px 20px 16px;
+  border:1.5px solid rgba(46,139,192,0.15);
+  cursor:pointer;
+  transition:all 0.3s ease;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  position:relative;
+  box-shadow:0 3px 14px rgba(13,75,110,0.08);
+  overflow:hidden;
+  word-break:break-word;
+}
+.article-card:hover{
+  border-color:var(--ocean-mid);
+  box-shadow:0 8px 28px rgba(46,139,192,0.22);
+  transform:translateY(-4px) scale(1.01);
+}
+.article-card .source-tag{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:6px;
+  font-size:0.75rem;
+  font-weight:700;
+  color:#fff;
+  background:var(--coral);
+  align-self:flex-start;
+}
+/* ====== SOURCE TAG COLORS ====== */
+.source-tag[data-source="Global Urban Review"]{ background:#1B6CA8 }
+.source-tag[data-source="Civic Culture Weekly"]{ background:#E87A7A }
+.source-tag[data-source="ECNS / Xinhua"]{ background:#E8913A }
+.source-tag[data-source="Ecns.cn"]{ background:#3AAB7E }
+.source-tag[data-source="ECNS"]{ background:#6B8DD6 }
+.source-tag[data-source="The Economist"]{ background:#C8A830 }
+
+.article-card .title-zh{
+  font-size:1rem;
+  font-weight:700;
+  color:var(--text-primary);
+  line-height:1.4;
+}
+.article-card .title-en{
+  font-size:0.82rem;
+  color:var(--text-secondary);
+  line-height:1.4;
+}
+.article-card .meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  font-size:0.75rem;
+  color:var(--text-muted);
+}
+.article-card .meta-row span{
+  background:var(--ocean-foam);
+  padding:2px 6px;
+  border-radius:4px;
+}
+.article-card .summary-zh{
+  font-size:0.82rem;
+  color:var(--text-secondary);
+  line-height:1.5;
+  overflow:hidden;
+  word-break:break-word;
+}
+.article-card .progress-badge{
+  font-size:0.78rem;
+  font-weight:700;
+  color:var(--ocean-mid);
+  margin-top:auto;
+  padding-top:4px;
+}
+
+/* ====== ACTION ROW ====== */
+.action-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.article-switch-row{justify-content:center}
+
+/* ====== PROGRESS BAR ====== */
+.progress-bar{
+  height:8px;
+  background:var(--ocean-foam);
+  border-radius:4px;
+  overflow:hidden;
+  margin-bottom:4px;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--ocean-mid),var(--ocean-light));
+  border-radius:4px;
+  transition:width var(--transition);
+  width:0%;
+}
+.progress-text{
+  font-size:0.85rem;
+  color:var(--text-muted);
+  margin-bottom:12px;
+  display:block;
+}
+
+/* ====== ARTICLE READER ====== */
+.article-reader{display:flex;flex-direction:column;gap:12px}
+.paragraph-block{
+  background:var(--ocean-foam);
+  border-radius:var(--radius-sm);
+  padding:16px 18px;
+  border:1px solid var(--border-light);
+  transition:var(--transition);
+}
+.paragraph-block:hover{border-color:var(--ocean-mid)}
+.paragraph-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+.paragraph-head .para-num{
+  font-size:0.85rem;
+  font-weight:700;
+  color:var(--ocean-deep);
+}
+.paragraph-head .btn{padding:6px 14px;font-size:0.85rem}
+.paragraph-text{
+  font-size:0.95rem;
+  color:var(--text-primary);
+  line-height:1.8;
+}
+.paragraph-block.completed{
+  border-left:4px solid var(--ocean-mid);
+  opacity:0.75;
+}
+
+/* ====== PRACTICE BOX ====== */
+.practice-box{display:flex;flex-direction:column;gap:16px}
+.practice-box h3{font-size:1.05rem;font-weight:700;color:var(--ocean-deep);margin-bottom:6px}
+.practice-source{
+  background:var(--ocean-foam);
+  padding:16px;
+  border-radius:var(--radius-sm);
+  border-left:4px solid var(--ocean-mid);
+  font-size:0.95rem;
+  line-height:1.8;
+  color:var(--text-primary);
+}
+.technique-hint{
+  margin-top:8px;
+  padding:10px 14px;
+  background:rgba(255,140,124,0.08);
+  border-radius:var(--radius-xs);
+  color:var(--coral);
+  font-size:0.88rem;
+  font-weight:600;
+  line-height:1.5;
+}
+.technique-hint:empty{display:none}
+textarea{
+  width:100%;
+  padding:14px 16px;
+  border:1.5px solid var(--border-light);
+  border-radius:var(--radius-sm);
+  font-family:var(--font-main);
+  font-size:0.95rem;
+  line-height:1.7;
+  resize:vertical;
+  transition:var(--transition);
+  background:#fff;
+}
+textarea:focus{
+  outline:none;
+  border-color:var(--ocean-mid);
+  box-shadow:0 0 0 3px rgba(46,139,192,0.12);
+}
+.reference-wrap{display:flex;flex-direction:column;gap:8px}
+.reference-panel{
+  background:rgba(46,139,192,0.05);
+  border:1px solid var(--border-light);
+  border-radius:var(--radius-sm);
+  padding:16px;
+}
+.reference-panel p{
+  font-size:0.95rem;
+  line-height:1.8;
+  color:var(--text-primary);
+}
+
+/* ====== ANALYSIS ====== */
+.analysis-summary{
+  font-size:0.95rem;
+  color:var(--text-secondary);
+  margin-bottom:12px;
+}
+.issue-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.issue-tag{
+  padding:4px 10px;
+  border-radius:12px;
+  font-size:0.8rem;
+  font-weight:600;
+  background:rgba(255,140,124,0.12);
+  color:var(--coral);
+}
+.compare-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:16px;
+}
+@media(max-width:600px){.compare-grid{grid-template-columns:1fr}}
+.compare-grid h3{font-size:0.95rem;font-weight:700;color:var(--ocean-deep);margin-bottom:6px}
+.diff-box{
+  background:var(--ocean-foam);
+  padding:14px;
+  border-radius:var(--radius-sm);
+  font-size:0.9rem;
+  line-height:1.7;
+  min-height:60px;
+  border:1px solid var(--border-light);
+}
+.diff-box .diff-add{background:rgba(46,139,192,0.2);border-radius:3px;padding:1px 3px}
+.diff-box .diff-del{background:rgba(255,140,124,0.25);text-decoration:line-through;border-radius:3px;padding:1px 3px}
+.diff-box .diff-match{opacity:0.6}
+/* 逐句对照卡片 */
+.sentence-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:16px;
+  padding:16px;
+  background:var(--ocean-foam);
+  border-radius:var(--radius-sm);
+  border:1px solid var(--border-light);
+  position:relative;
+}
+.sentence-pair::before{
+  content:attr(data-idx);
+  position:absolute;
+  top:-10px;left:16px;
+  background:var(--ocean-mid);
+  color:#fff;
+  font-size:0.7rem;
+  font-weight:700;
+  padding:2px 8px;
+  border-radius:10px;
+}
+@media(max-width:600px){.sentence-pair{grid-template-columns:1fr}}
+.sentence-pair .sp-label{
+  font-size:0.75rem;
+  font-weight:700;
+  color:var(--text-muted);
+  margin-bottom:4px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+.sentence-pair .sp-mine{font-size:0.9rem;line-height:1.7}
+.sentence-pair .sp-ref{font-size:0.9rem;line-height:1.7}
+.sentence-pair .sp-comment{
+  grid-column:1/-1;
+  font-size:0.82rem;
+  color:var(--coral);
+  background:rgba(255,140,124,0.08);
+  padding:8px 12px;
+  border-radius:8px;
+  border-left:3px solid var(--coral);
+  margin-top:4px;
+}
+.sentence-pair.match-good{border-left:3px solid #3AAB7E}
+.sentence-pair.match-partial{border-left:3px solid var(--warm-orange)}
+.sentence-pair.match-diff{border-left:3px solid var(--coral)}
+.suggestions{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:0;
+}
+.suggestions li{
+  padding:10px 14px;
+  background:var(--ocean-foam);
+  border-radius:var(--radius-xs);
+  font-size:0.9rem;
+  border-left:3px solid var(--ocean-mid);
+  line-height:1.5;
+}
+
+/* ====== REVIEW ====== */
+.review-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:12px;
+}
+@media(max-width:600px){.review-grid{grid-template-columns:1fr}}
+.review-grid label{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  font-size:0.9rem;
+  font-weight:600;
+  color:var(--ocean-deep);
+}
+.review-grid textarea{font-size:0.88rem}
+.save-hint{
+  font-size:0.85rem;
+  color:var(--ocean-mid);
+  font-weight:600;
+}
+
+/* ====== TOAST ====== */
+.auto-save-toast,.feedback-toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(80px);
+  padding:10px 24px;
+  border-radius:var(--radius-sm);
+  font-size:0.9rem;
+  font-weight:600;
+  z-index:9999;
+  transition:transform 0.4s cubic-bezier(.4,0,.2,1),opacity 0.4s;
+  opacity:0;
+  pointer-events:none;
+}
+.auto-save-toast{background:var(--ocean-deep);color:#fff}
+.feedback-toast{background:var(--coral);color:#fff}
+.auto-save-toast.show,.feedback-toast.show{
+  transform:translateX(-50%) translateY(0);
+  opacity:1;
+}
+
+/* ====== FOOTER ====== */
+.site-footer{
+  text-align:center;
+  padding:24px 16px 32px;
+  color:rgba(255,255,255,0.75);
+  font-size:0.95rem;
+  position:relative;
+  z-index:1;
+}
+
+/* ====== RULE FAB + PANEL ====== */
+.rule-fab{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:100;
+  padding:12px 20px;
+  background:linear-gradient(135deg,var(--ocean-mid),var(--ocean-deep));
+  color:#fff;
+  border:none;
+  border-radius:28px;
+  font-family:var(--font-main);
+  font-size:0.9rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(27,108,168,0.3);
+  transition:var(--transition);
+}
+.rule-fab:hover{transform:scale(1.05);box-shadow:0 6px 28px rgba(27,108,168,0.4)}
+.rule-panel{
+  position:fixed;
+  top:0;right:0;
+  width:380px;
+  max-width:90vw;
+  height:100vh;
+  background:var(--card-bg);
+  backdrop-filter:blur(12px);
+  box-shadow:-4px 0 30px rgba(27,108,168,0.15);
+  z-index:200;
+  padding:24px;
+  overflow-y:auto;
+  transform:translateX(100%);
+  transition:transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+.rule-panel.open{transform:translateX(0)}
+.rule-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.rule-header h3{font-size:1.1rem;font-weight:700;color:var(--ocean-deep)}
+.close-btn{
+  padding:6px 14px;
+  border:1.5px solid var(--border-light);
+  border-radius:var(--radius-xs);
+  background:#fff;
+  font-family:var(--font-main);
+  font-size:0.85rem;
+  cursor:pointer;
+  transition:var(--transition);
+  color:var(--text-secondary);
+}
+.close-btn:hover{border-color:var(--coral);color:var(--coral)}
+.rule-tip{
+  font-size:0.88rem;
+  color:var(--text-muted);
+  margin-bottom:16px;
+}
+.rule-cards{display:flex;flex-direction:column;gap:10px}
+.rule-card{
+  padding:12px 14px;
+  background:var(--ocean-foam);
+  border-radius:var(--radius-sm);
+  border-left:3px solid var(--ocean-mid);
+  font-size:0.88rem;
+  line-height:1.6;
+  color:var(--text-primary);
+}
+.rule-card strong{color:var(--ocean-deep)}
+
+/* ====== MODAL ====== */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  z-index:300;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+.modal-overlay.hidden{display:none!important}
+.modal-box{
+  background:#fff;
+  border-radius:var(--radius);
+  padding:28px 32px;
+  max-width:560px;
+  width:100%;
+  max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 12px 40px rgba(0,0,0,0.2);
+}
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+.modal-header h3{font-size:1.2rem;font-weight:700;color:var(--ocean-deep)}
+.modal-body{font-size:0.95rem;line-height:1.7}
+.modal-body p{margin-bottom:10px}
+.modal-body .rss-source-list{
+  list-style:none;padding:0;display:flex;flex-direction:column;gap:6px;margin-bottom:12px;
+}
+.modal-body .rss-source-list li{
+  padding:8px 12px;
+  background:var(--ocean-foam);
+  border-radius:var(--radius-xs);
+  font-size:0.88rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.modal-body .rss-source-list li input[type="checkbox"]{
+  width:18px;height:18px;accent-color:var(--ocean-mid);
+}
+.modal-body label{font-weight:600;color:var(--ocean-deep)}
+.fetch-count-input{
+  width:80px;padding:6px 10px;border:1.5px solid var(--border-light);border-radius:var(--radius-xs);
+  font-size:0.9rem;font-family:var(--font-main);
+}
+.fetch-status{
+  margin-top:12px;
+  padding:10px 14px;
+  background:var(--ocean-foam);
+  border-radius:var(--radius-xs);
+  font-size:0.88rem;
+  color:var(--text-secondary);
+  min-height:40px;
+  white-space:pre-line;
+}
+.fetch-progress-bar{
+  height:6px;background:var(--ocean-foam);border-radius:3px;margin-top:8px;overflow:hidden;
+}
+.fetch-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--ocean-mid),var(--ocean-light));border-radius:3px;
+  width:0%;transition:width 0.3s;
+}
+
+/* ====== PROGRESSIVE ====== */
+.progressive-section{opacity:0.5;transition:opacity var(--transition)}
+.progressive-section.active{opacity:1}
+
+/* ====== SCROLLBAR ====== */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(46,139,192,0.25);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(46,139,192,0.4)}
+
+/* ====== ANIMATIONS ====== */
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 0.35s ease forwards}
+
+/* ====== STEP NAV ====== */
+.step-nav{
+  position:sticky;top:0;z-index:100;
+  background:linear-gradient(135deg,#0D4B6E,#1B6CA8);
+  padding:12px 24px;display:flex;gap:8px;
+  border-radius:0 0 20px 20px;
+  box-shadow:0 4px 20px rgba(13,75,110,0.3);
+  overflow-x:auto;
+  justify-content:center;
+}
+.step-btn{
+  padding:10px 20px;border:2px solid rgba(255,255,255,0.3);
+  border-radius:24px;background:rgba(255,255,255,0.1);
+  color:#B8E8FF;font-weight:700;font-size:0.9rem;
+  cursor:pointer;transition:all 0.3s ease;
+  white-space:nowrap;font-family:var(--font-main);
+}
+.step-btn:hover{background:rgba(255,255,255,0.2);color:#fff;}
+.step-btn.active{
+  background:#fff;color:#1B6CA8;
+  border-color:#fff;box-shadow:0 2px 12px rgba(255,255,255,0.3);
+}
+.step-btn.completed{
+  background:rgba(107,191,138,0.3);border-color:rgba(107,191,138,0.5);
+  color:#A8FFD0;
+}
+.step-panel{display:none}
+.step-panel.active-step{display:block}
+.step-nav-footer{
+  display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap;
+}
+  </style>
 </head>
 <body>
-  <div class="bg-decor bg-cloud cloud-a"></div>
-  <div class="bg-decor bg-cloud cloud-b"></div>
-  <div class="bg-decor bg-star star-a"></div>
-  <div class="bg-decor bg-star star-b"></div>
-  <div class="bg-decor bg-dot dot-a"></div>
-  <div class="bg-decor bg-dot dot-b"></div>
+  <!-- Ocean background decorations -->
+  <div class="bg-decor ocean-a">🐳</div>
+  <div class="bg-decor ocean-b">🐚</div>
+  <div class="bg-decor ocean-c">🌊</div>
+  <div class="bg-decor ocean-d">🐠</div>
+  <div class="bg-decor ocean-e">⭐</div>
+  <div class="bg-decor ocean-f">🦀</div>
+  <div class="bg-decor ocean-g">🐡</div>
+  <div class="bg-decor ocean-h">🫧</div>
+  <div class="bg-decor ocean-i">🌴</div>
+  <div class="bg-decor ocean-j">🐬</div>
+  <div class="bg-decor ocean-k">🦑</div>
+  <div class="bg-decor ocean-l">🪸</div>
 
   <main class="page-wrap">
+    <!-- Hero -->
     <section class="hero card">
-      <h1>外刊笔译练习小屋</h1>
-      <p>每天一点点，把“看懂”慢慢练成“译得顺”。</p>
+      <h1>🐳 外刊笔译练习小屋 🌊</h1>
+      <p>每天一点点，把"看懂"慢慢练成"译得顺"。</p>
+      <div class="hero-wave">
+        <svg viewBox="0 0 960 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <path d="M0,30 C120,60 240,0 360,30 C480,60 600,0 720,30 C840,60 900,15 960,30 L960,60 L0,60 Z" fill="#FFFFFF"/>
+        </svg>
+      </div>
     </section>
 
+    <!-- Step Navigation -->
+    <nav class="step-nav">
+      <button class="step-btn active" data-step="1" onclick="goStep(1)">📰 选文章</button>
+      <button class="step-btn" data-step="2" onclick="goStep(2)">📖 读段落</button>
+      <button class="step-btn" data-step="3" onclick="goStep(3)">✍️ 翻译</button>
+      <button class="step-btn" data-step="4" onclick="goStep(4)">🔍 分析</button>
+      <button class="step-btn" data-step="5" onclick="goStep(5)">📝 复盘</button>
+    </nav>
+
+    <!-- Content area wrapper for visual separation -->
+    <div class="content-area">
+
+    <!-- Step 1: 选文章 -->
+    <div class="step-panel active-step" id="step-1">
+
+    <!-- Home Article Section -->
     <section id="homeArticleSection" class="card section-block">
       <div class="section-head">
         <h2>文章预览</h2>
         <span id="articleCount" class="muted"></span>
+        <button id="fetchNewsBtn" class="btn secondary fetch-news-btn" type="button">📥 获取新文章</button>
+      </div>
+      <div class="article-toolbar">
+        <input type="text" id="articleSearchInput" class="article-search" placeholder="🔍 搜索文章标题..." />
+        <div class="filter-tags" id="filterTags">
+          <button class="filter-tag active" data-filter="all">全部</button>
+        </div>
       </div>
       <div id="articleList" class="article-list"></div>
       <div class="action-row article-switch-row">
@@ -31,23 +846,53 @@
       </div>
     </section>
 
+    <!-- All Articles Section -->
     <section id="allArticlesSection" class="card section-block hidden">
       <div class="section-head">
         <h2>全部文章</h2>
         <button id="backHomeBtn" class="btn secondary" type="button">返回首页</button>
       </div>
+      <div class="article-toolbar">
+        <input type="text" id="allArticleSearchInput" class="article-search" placeholder="🔍 搜索文章标题..." />
+        <div class="filter-tags" id="allFilterTags">
+          <button class="filter-tag active" data-filter="all">全部</button>
+        </div>
+      </div>
       <div id="allArticleList" class="article-list"></div>
     </section>
 
-    <section class="card section-block">
+    <div class="step-nav-footer">
+      <button class="btn primary" onclick="goStep(2)">下一步：读段落 →</button>
+    </div>
+
+    </div><!-- /step-1 -->
+
+    <!-- Step 2: 读段落 -->
+    <div class="step-panel" id="step-2">
+
+    <!-- Article Reader -->
+    <section class="card section-block" id="readerSection">
       <div class="section-head">
         <h2>文章阅读区</h2>
         <span id="currentArticleMeta" class="muted"></span>
       </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-text" id="progressText">已完成 0/0 段</span>
       <div id="articleReader" class="article-reader"></div>
     </section>
 
-    <section class="card section-block">
+    <div class="step-nav-footer">
+      <button class="btn secondary" onclick="goStep(1)">← 上一步</button>
+      <button class="btn primary" onclick="goStep(3)">下一步：翻译练习 →</button>
+    </div>
+
+    </div><!-- /step-2 -->
+
+    <!-- Step 3: 翻译练习 -->
+    <div class="step-panel" id="step-3">
+
+    <!-- Practice Section -->
+    <section class="card section-block" id="practiceSection">
       <div class="section-head">
         <h2>当前段落练习</h2>
         <span id="currentParagraphMeta" class="muted"></span>
@@ -58,49 +903,60 @@
           <p id="practiceSource" class="practice-source">请先从上方文章中选择一段开始练习。</p>
           <p id="techniqueHint" class="technique-hint"></p>
         </div>
-
         <div>
           <label for="myTranslation"><h3>我的译文</h3></label>
           <textarea id="myTranslation" rows="6" placeholder="在这里输入你的译文..."></textarea>
         </div>
-
         <div class="reference-wrap">
           <button id="toggleReferenceBtn" class="btn secondary" type="button">展开参考译文</button>
+
           <div id="referencePanel" class="reference-panel hidden">
             <h3>参考译文</h3>
             <p id="referenceText"></p>
           </div>
         </div>
-
         <div class="action-row">
           <button id="analyzeBtn" class="btn primary" type="button">开始对照分析</button>
         </div>
       </div>
     </section>
 
-    <section class="card section-block" id="analysisSection">
+    <div class="step-nav-footer">
+      <button class="btn secondary" onclick="goStep(2)">← 上一步</button>
+      <button class="btn primary" onclick="goStep(4)">下一步：差异分析 →</button>
+    </div>
+
+    </div><!-- /step-3 -->
+
+    <!-- Step 4: 差异分析 -->
+    <div class="step-panel" id="step-4">
+
+    <!-- Analysis Section -->
+    <section class="card section-block progressive-section" id="analysisSection">
       <div class="section-head">
-        <h2>差异分析区</h2>
+        <h2>🔍 差异分析区</h2>
       </div>
-      <p id="analysisSummary" class="analysis-summary">完成一段翻译后，点击“开始对照分析”查看差异与建议。</p>
+      <p id="analysisSummary" class="analysis-summary">完成一段翻译后，点击"开始对照分析"查看差异与建议。</p>
       <div id="issueTags" class="issue-tags"></div>
-      <div class="compare-grid">
-        <div>
-          <h3>我的译文（对照分析）</h3>
-          <div id="myDiffView" class="diff-box"></div>
-        </div>
-        <div>
-          <h3>参考译文（对照分析）</h3>
-          <div id="refDiffView" class="diff-box"></div>
-        </div>
-      </div>
+      <div id="sentenceDiffContainer"></div>
       <div>
-        <h3>改进建议</h3>
+        <h3>📋 改进建议</h3>
         <ul id="suggestions" class="suggestions"></ul>
       </div>
     </section>
 
-    <section class="card section-block">
+    <div class="step-nav-footer">
+      <button class="btn secondary" onclick="goStep(3)">← 上一步</button>
+      <button class="btn primary" onclick="goStep(5)">下一步：复盘 →</button>
+    </div>
+
+    </div><!-- /step-4 -->
+
+    <!-- Step 5: 复盘 -->
+    <div class="step-panel" id="step-5">
+
+    <!-- Review Section -->
+    <section class="card section-block progressive-section" id="reviewSection">
       <div class="section-head">
         <h2>复盘区</h2>
         <span class="muted">按文章 + 段落自动关联</span>
@@ -133,11 +989,29 @@
         <span id="saveHint" class="save-hint"></span>
       </div>
     </section>
+
+    <div class="step-nav-footer">
+      <button class="btn secondary" onclick="goStep(4)">← 上一步</button>
+      <button class="btn primary" onclick="goStep(1)">🔄 练习新一段</button>
+    </div>
+
+    </div><!-- /step-5 -->
+
+    </div><!-- /content-area -->
   </main>
 
-  <button id="ruleToggleBtn" class="rule-fab" type="button">规则小抄</button>
+  <!-- Toasts -->
+  <div id="autoSaveToast" class="auto-save-toast">已自动保存 ✓</div>
+  <div id="feedbackToast" class="feedback-toast"></div>
 
-  <aside id="rulePanel" class="rule-panel hidden" aria-hidden="true">
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>每一次练习都是进步 🌱 慢慢来，你做得很好。</p>
+  </footer>
+
+  <!-- Rule FAB + Panel -->
+  <button id="ruleToggleBtn" class="rule-fab" type="button">📜 规则小抄</button>
+  <aside id="rulePanel" class="rule-panel" aria-hidden="true">
     <div class="rule-header">
       <h3>这次可能会用到的规则</h3>
       <button id="closeRuleBtn" class="close-btn" type="button">关闭</button>
@@ -146,7 +1020,1728 @@
     <div class="rule-cards" id="ruleCards"></div>
   </aside>
 
-  <script src="articles.js"></script>
-  <script src="script.js"></script>
+  <!-- Fetch News Modal -->
+  <div id="fetchNewsModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>📥 获取新文章</h3>
+        <button id="closeFetchModal" class="close-btn" type="button">关闭</button>
+      </div>
+      <div class="modal-body">
+        <p>选择 RSS 来源，点击「开始抓取」获取最新外刊文章：</p>
+        <ul class="rss-source-list" id="rssSourceList">
+          <li><input type="checkbox" checked data-feed="economist" /> The Economist（经济学人）</li>
+          <li><input type="checkbox" checked data-feed="nyt" /> New York Times（纽约时报）</li>
+          <li><input type="checkbox" checked data-feed="bbc" /> BBC News</li>
+          <li><input type="checkbox" data-feed="guardian" /> The Guardian（卫报）</li>
+          <li><input type="checkbox" data-feed="wapo" /> Washington Post（华盛顿邮报）</li>
+          <li><input type="checkbox" data-feed="ft" /> Financial Times（金融时报）</li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <label>抓取数量：</label>
+          <input type="number" id="fetchCountInput" class="fetch-count-input" value="3" min="1" max="10" />
+        </div>
+        <div class="action-row">
+          <button id="startFetchBtn" class="btn primary" type="button">🚀 开始抓取</button>
+        </div>
+        <div class="fetch-status" id="fetchStatus">就绪，点击上方按钮开始。</div>
+        <div class="fetch-progress-bar"><div class="fetch-progress-fill" id="fetchProgressFill"></div></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ============================================================
+// ARTICLES DATA
+// ============================================================
+window.ARTICLES = [
+  {
+    id: "urban-heat-resilience",
+    title: "Cities Rethink Heat Resilience as Summers Intensify",
+    titleZh: "高温常态下,城市开始重塑韧性治理",
+    source: "Global Urban Review",
+    articleDate: "2026-03-04",
+    topic: "城市治理 / 气候适应",
+    difficulty: "中高级",
+    summary: "多地城市将高温治理从临时应急转向长期规划,强调社区网络、基础设施和公共服务协同。",
+    paragraphs: [
+      "After years of treating heat waves as short-term emergencies, many city governments are now integrating heat resilience into long-range planning. Officials argue that high temperatures are no longer exceptional events but recurring pressures that shape housing, transport, and public health policy.",
+      "Several municipalities have started mapping neighborhood-level vulnerability, combining data on tree cover, building density, and income. The goal is to direct cooling investments toward communities where residents face both environmental and economic constraints.",
+      "Urban planners also stress that resilience is not only an engineering issue. Public libraries, schools, and local clinics are being redesigned as trusted cooling hubs, so that residents can access relief without navigating unfamiliar institutions during peak heat periods."
+    ],
+    referenceTranslations: [
+      "在多年将热浪视为短期紧急事件之后,许多城市政府如今正把高温韧性纳入长期规划。官员指出,高温已不再是偶发事件,而是持续反复的压力,正在重塑住房、交通和公共卫生政策。",
+      "一些市政部门已开始绘制社区层面的脆弱性地图,将树冠覆盖率、建筑密度和收入等数据结合起来。其目标是把降温投入优先投向那些同时面临环境与经济约束的社区。",
+      "城市规划者还强调,韧性不仅是工程问题。公共图书馆、学校和基层诊所正被改造为值得信赖的清凉驿站,使居民在高温峰值时段无需进入陌生机构也能获得降温支持。"
+    ],
+    techniqueNotes: [
+      "长句拆分 + 抽象表达落地：将 recurring pressures 处理成\"持续反复的压力\"。",
+      "术语统一 + 词性转换：vulnerability mapping 可译为\"脆弱性地图绘制/评估\"。",
+      "增译 + 顺译与倒译：trusted cooling hubs 需要补出\"可获得支持\"的功能含义。"
+    ],
+    terminologyHints: [
+      ["韧性", "长期规划", "公共卫生"],
+      ["脆弱性", "降温投入", "约束"],
+      ["清凉驿站", "高温峰值", "支持"]
+    ]
+  },
+  {
+    id: "cultural-economy-night-museums",
+    title: "Night Museums and the New Cultural Economy",
+    titleZh: "夜间博物馆与文化消费新结构",
+    source: "Civic Culture Weekly",
+    articleDate: "2026-02-18",
+    topic: "文化 / 经济 / 公共空间",
+    difficulty: "中高级",
+    summary: "越来越多城市通过延长博物馆夜间开放时间激活文化消费,并重估公共文化机构在城市生活中的角色。",
+    paragraphs: [
+      "Museum directors in several capitals report that evening programs are attracting audiences who rarely visit during standard hours. Young professionals and service workers, in particular, say they are more willing to attend exhibitions after work when travel and timing feel manageable.",
+      "Economists note that the policy has spillover effects beyond ticket revenue. Restaurants, transit systems, and nearby bookstores often see a measurable uptick, suggesting that cultural institutions can anchor broader nighttime activity in a way that is less volatile than entertainment-led growth.",
+      "Yet curators caution against treating night openings as a universal formula. Without careful staffing, accessibility planning, and neighborhood consultation, extended hours can strain workers while failing to reach residents who remain excluded by price or language barriers."
+    ],
+    referenceTranslations: [
+      "多座首都城市的博物馆馆长表示,夜间项目正在吸引那些在常规时段很少到馆的观众。尤其是年轻职场人和服务业从业者认为,下班后出行与时间安排更可控,因此更愿意参观展览。",
+      "经济学者指出,这一政策的外溢效应不止体现在门票收入上。餐饮、公共交通和周边书店常出现可量化的增长,这表明文化机构能够以比娱乐驱动增长更稳定的方式,带动更广泛的夜间活动。",
+      "但策展人也提醒,不应把夜间开放当作放之四海而皆准的方案。若缺乏细致的人力配置、无障碍规划和社区协商,延时开放可能加重员工负担,同时仍无法触达受价格或语言门槛排除的居民。"
+    ],
+    techniqueNotes: [
+      "主被动转换 + 语序优化：谁在报告、谁在感受到便利要清晰。",
+      "术语统一 + 抽象表达落地：spillover effects 建议统一为\"外溢效应\"。",
+      "省译与增译平衡：universal formula 不直译\"万能公式\",用\"通用方案\"更自然。"
+    ],
+    terminologyHints: [
+      ["夜间项目", "常规时段", "更可控"],
+      ["外溢效应", "可量化", "更稳定"],
+      ["通用方案", "无障碍规划", "门槛"]
+    ]
+  },
+  {
+    id: "ecns-inner-mongolia-ftz-2026-04-10",
+    title: "China adds pilot FTZ in Inner Mongolia as opening-up drive accelerates",
+    titleZh: "中国在内蒙古增设自贸试验区,进一步加快开放步伐",
+    source: "ECNS / Xinhua",
+    articleDate: "2026-04-10",
+    topic: "economy",
+    difficulty: "medium",
+    summary: "国务院公布方案,正式设立中国（内蒙古）自由贸易试验区,使全国试点自由贸易试验区数量增至23个。这被视为中国持续推进高水平对外开放、优化区域开放布局的重要举措。",
+    paragraphs: [
+      "China has expanded its pilot free trade zones (FTZ) to 23 with the establishment of the China (Inner Mongolia) Pilot Free Trade Zone, the latest move in the country's sustained push for high-standard opening up, according to a plan made public by the State Council Thursday.",
+      "The plan grants the new pilot FTZ in north China's Inner Mongolia Autonomous Region greater reform autonomy and encourages pioneering, integrated and differentiated exploration across a wider range of areas at a deeper level.",
+      "It specifies 19 reform and innovation measures, including developing border trade in an innovative way, strengthening international logistics services, improving the efficiency of technology transfer and application, and expanding external exchanges across multiple fields.",
+      "The establishment of the China (Inner Mongolia) Pilot Free Trade Zone is an important strategic move to further deepen reforms comprehensively, advance high-standard opening up, and promote high-quality development.",
+      "The pilot FTZ covers 119.74 square kilometers and comprises three subzones in Hohhot, capital of the autonomous region, Manzhouli, a northern border city, and Erenhot, a land port on the China-Mongolia border, each tasked with differentiated functions and the development of industries tailored to local conditions.",
+      "It\u2019s a strategic and timely move that filled a gap in China\u2019s border opening-up in the north and created new space for China to further open up, said Fan Lijun, director of the Belt and Road Initiative Research Institute at the Inner Mongolia Academy of Social Sciences.",
+      "The plan aims to build the pilot FTZ into a hub for information exchange, transportation and logistics, allocation of factor resources, sci-tech innovation and industrial cooperation in key areas, connecting domestic and international markets while radiating to neighboring regions.",
+      "The FTZ will fully leverage its role as an important bridgehead for China\u2019s opening-up to the north, and strive to become a high-level FTZ featuring convenient investment and trade, a sound innovation ecosystem, clustering of competitive industries, and vibrant international exchanges.",
+      "The FTZ, as a pacesetter for institutional innovation, will give Inner Mongolia more authority to break the ice in key areas, said Qu Jian, vice president of the China Development Institute, a think tank based in Shenzhen.",
+      "China had earlier established 22 pilot FTZs in areas including Shanghai, Guangdong, Liaoning, Hainan, Shandong and Beijing. The previous addition was the China (Xinjiang) Pilot Free Trade Zone in 2023.",
+      "Since the establishment of the first FTZ in Shanghai in 2013, China\u2019s FTZs have achieved remarkable results in institutional innovation. During the 14th Five-Year Plan period (2021-2025), over 200 institutional innovations were rolled out, with landmark measures such as the negative list for foreign investment optimizing the country\u2019s business environment.",
+      "China is open wider to the world, as its latest five-year blueprint puts emphasis on improved regional planning for opening up.",
+      "The country will move faster toward all-around opening up through links running eastward and westward, across land, and over sea, according to the outline of the 15th Five-Year Plan (2026-2030).",
+      "The establishment of the China (Inner Mongolia) Pilot Free Trade Zone fully aligns with the goal set in the outline, and it will serve as a key platform for implementing opening-up measures, Fan said."
+    ],
+    referenceTranslations: [
+      "国务院周四公布的一份方案显示,随着中国（内蒙古）自由贸易试验区正式设立,我国试点自由贸易试验区数量已增至23个。这是中国持续推进高水平对外开放的最新举措。",
+      "方案赋予位于中国北方的内蒙古自治区新设自贸试验区更大的改革自主权,鼓励其在更广领域、更深层次开展先行先试、集成探索和差异化探索。",
+      "方案提出19项改革创新举措,包括创新发展边境贸易、强化国际物流服务、提升技术转移和成果应用效率,以及拓展多领域对外交流合作。",
+      "设立中国（内蒙古）自由贸易试验区,是我国进一步全面深化改革、推进高水平对外开放、促进高质量发展的重要战略举措。",
+      "该自贸试验区总面积119.74平方公里,由呼和浩特片区、满洲里片区和二连浩特片区组成。三大片区分别承担差异化功能,并结合各自条件培育特色产业。",
+      "内蒙古自治区社会科学院\"一带一路\"研究院院长范丽君表示,此举具有战略意义,也正当其时,填补了中国北向边境开放布局的空白,为中国进一步扩大开放拓展了新空间。",
+      "根据方案,内蒙古自贸试验区将被打造成为信息交流、交通物流、要素资源配置、科技创新以及重点领域产业合作的枢纽,联通国内国际两个市场,并辐射周边地区。",
+      "该自贸试验区将充分发挥我国向北开放重要桥头堡作用,努力建设成为投资贸易便利、创新生态完善、优势产业集聚、国际交流活跃的高水平自贸试验区。",
+      "深圳智库中国发展研究院副院长曲建表示,作为制度创新的先行区,自贸试验区将赋予内蒙古更多在关键领域率先破局的空间与权限。",
+      "此前,中国已在上海、广东、辽宁、海南、山东、北京等地设立22个自贸试验区。上一次新增是在2023年设立中国（新疆）自由贸易试验区。",
+      "自2013年上海设立首个自贸试验区以来,我国自贸试验区在制度创新方面取得显著成效。\"十四五\"时期（2021—2025年）,已推出200多项制度创新成果,其中包括外商投资准入负面清单等标志性举措,持续优化了我国营商环境。",
+      "中国正以更大力度向世界敞开大门,最新出台的五年发展蓝图更加突出优化区域开放布局。",
+      "根据《\"十五五\"规划纲要（2026—2030年）》,中国将加快推进全方位开放,进一步形成东向、西联、陆海统筹的开放格局。",
+      "范丽君表示,设立中国（内蒙古）自由贸易试验区与纲要确定的目标高度契合,并将成为落实开放举措的重要平台。"
+    ],
+    techniqueNotes: [
+      "新闻导语要译得简洁稳当；latest move 可处理为\"最新举措\"。",
+      "政策表达偏抽象,注意把 greater reform autonomy 译得自然,不要生硬直译。",
+      "并列结构很多,建议拆清层次,保持中文节奏顺畅。",
+      "这是典型政策表述,适合用\"重要战略举措\"这类正式中文表达。",
+      "地名、同位语和长定语较多,宜分层处理,避免一句塞太满。",
+      "引语可适当意译；filled a gap 译成\"填补空白\"更自然。",
+      "名词链较长,建议按\"功能—作用—范围\"顺序重组语序。",
+      "适合使用较成熟的政经表达,如\"桥头堡\"\"投资贸易便利\"等。",
+      "break the ice 不宜直译成\"破冰\"本身就结束,最好结合语境处理成\"率先破局\"或\"打开局面\"。",
+      "信息类句子重在准确清楚,保持简洁即可。",
+      "数据、时间和政策术语要准确,负面清单属于固定表达。",
+      "open wider to the world 可译为\"以更大力度向世界敞开大门\",更符合中文新闻语感。",
+      "eastward and westward, across land, and over sea 是并列结构,中文宜整合成更凝练的表达。",
+      "align with 和 serve as 在中文里更适合译成\"高度契合\"\"成为重要平台\"。"
+    ]
+  },
+  {
+    id: "article-003",
+    title: "Nobel laureate calls for balance between AI technology and basic research",
+    titleZh: "诺奖得主呼吁：应平衡人工智能技术与基础研究的关系",
+    source: "Ecns.cn",
+    articleDate: "2026-04-11",
+    topic: "technology",
+    difficulty: "medium",
+    summary: "2013年诺贝尔化学奖得主亚利耶·瓦谢尔在接受中新社专访时指出，虽然AI在处理海量信息方面极具效率优势，但在基础研究范式和医疗决策等涉及人类健康的领域，仍需坚持物理实验的核心地位，避免过度依赖技术。",
+    paragraphs: [
+      "(ECNS)-Although artificial intelligence is advancing rapidly, the scientific research paradigm based on physical experiments must be upheld in critical fields, and overreliance on AI should be avoided, said Nobel chemistry laureate Arieh Warshel during an exclusive interview with China News Service at Southwest University in Chongqing on Friday.",
+      "\"I have a complex view toward AI,\" said Warshel, who was awarded the 2013 Nobel Prize in Chemistry \"for the development of multiscale models for complex chemical systems.\"",
+      "Although his team has begun to apply AI technologies, Warshel stressed that their core methods remain grounded in physical modeling and empirical research in the laboratory. AI does offer efficiency advantages in processing massive amounts of information, but researchers must carefully gauge the extent of its application, he added.",
+      "He particularly stressed that in matters critical to human health, such as disease treatment, AI can serve as an important auxiliary tool, but final decision-making must remain in the hands of professionals.",
+      "Regarding industrial applications, Warshel predicted that in highly automated sectors such as automobile manufacturing, the integration of AI and robotics will play an increasingly important role."
+    ],
+    referenceTranslations: [
+      "（中新社电）——周五，诺贝尔化学奖得主亚利耶·瓦谢尔在重庆西南大学接受中新社独家专访时表示，尽管人工智能（AI）正以前所未有的速度向前发展，但在关键领域，我们必须坚守基于物理实验的科研范式，警惕对AI的过度依赖。",
+      "瓦谢尔曾因\"为复杂化学系统开发多尺度模型\"而荣获2013年诺贝尔化学奖。他在采访中坦言：\"我对人工智能的看法比较复杂。\"",
+      "虽然他的团队已经开始应用人工智能技术，瓦谢尔强调，他们的核心研究方法依然根植于实验室的物理建模和实证研究。他补充道，AI在处理海量信息方面确实具有效率优势，但研究人员必须审慎衡量其应用程度。",
+      "他特别强调，在事关人类健康的重大问题（如疾病治疗）上，AI可以作为重要的辅助工具，但最终的决策权必须牢牢掌握在专业人员手中。",
+      "针对工业应用，瓦谢尔预测，在汽车制造等高度自动化领域，AI与机器人技术的融合将发挥愈发重要的作用。"
+    ],
+    techniqueNotes: [
+      "语序调整：将主句背景信息提前，使中文报道语感更自然，避免长状语后置造成的阅读负担。",
+      "增译与衔接：在引述诺奖成就时加入背景衔接词，并将从句逻辑独立化，符合中文叙事习惯。",
+      "词义精准：将 grounded in 译为\"根植于\"，将 gauge 译为\"审慎衡量\"，体现科学家严谨的态度。",
+      "去被动化：将 remain in the hands of 转化为具有主动性的表达\"牢牢掌握在……手中\"。",
+      "专业术语：准确套用高度自动化领域和技术融合的专业表达方式。"
+    ]
+  },
+  {
+    id: "ecns-chinese-humanoid-robots-gain-popularity-05525a",
+    title: "Chinese humanoid robots gain popularity among global partners: Polish expert",
+    titleZh: "中国人形机器人为何成为全球合作伙伴的\"首选\"？",
+    source: "ECNS",
+    articleDate: "2026-04-15",
+    topic: "科技",
+    difficulty: "中等",
+    summary: "波兰专家揭秘：凭借高可用性、快速技术迭代和极具竞争力的价格，中国人形机器人正在成为全球合作伙伴的首选。华沙街头追野猪的\"爱德华\"机器人爆火背后，是中国制造的硬实力。",
+    paragraphs: [
+      "Chinese humanoid robots are becoming the \"top choice\" for global partners, thanks to their high availability, rapid technological progress, and competitive pricing, a Polish industry expert has said.",
+      "Radoslaw Grzelaczyk, co-founder of MERA Robotics, a Polish company involved in humanoid technology, highlighted China\u2019s leading role in the fast-developing humanoid robotics sector in a recent interview with Xinhua.",
+      "Grzelaczyk is one of the creators of \"Edward,\" a humanoid robot that recently went viral after videos showed it chasing boars on the streets of Warsaw. Edward is based on the Unitree G1 humanoid robot from China, integrated with MERA\u2019s operating system and adapted for local use. Videos shared by the MERA team attracted millions of views online, turning Edward into a social media sensation.",
+      "After visiting China last year to study the commercialization of humanoid robotics, Grzelaczyk and his team combined Chinese hardware with domestically developed software to create solutions tailored to European users.",
+      "He noted that, compared with Western counterparts, Chinese robots are more accessible and cost-effective, while maintaining high performance and technological sophistication.",
+      "\"China is moving very fast in the humanoid market - perhaps two years ahead of any other country,\" he said.",
+      "Although the humanoid robotics market is still relatively small, Grzelaczyk expects it to grow rapidly and become one of the largest global markets in the near future.",
+      "Looking ahead, MERA Robotics plans to import around 100 humanoid robots from China by the end of July to expand its operations."
+    ],
+    referenceTranslations: [
+      "\u3010待补充参考译文\u3011本段约 28 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 29 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 65 个英文单词，4 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 30 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 21 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 20 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 27 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 22 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。"
+    ],
+    techniqueNotes: [
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "引语处理：注意说话者与引语的位置调整，中文习惯把说话者放在引语前面或中间。",
+      "引语处理：注意说话者与引语的位置调整，中文习惯把说话者放在引语前面或中间。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "展望类表达：将来时态的处理，注意区分确定计划和预测推断的不同译法。"
+    ],
+    terminologyHints: [
+      ["AI \u2192 人工智能/AI", "humanoid robot \u2192 人形机器人"],
+      ["humanoid robot \u2192 人形机器人"],
+      ["humanoid robot \u2192 人形机器人"],
+      ["AI \u2192 人工智能/AI", "humanoid robot \u2192 人形机器人"],
+      ["AI \u2192 人工智能/AI"],
+      ["AI \u2192 人工智能/AI"],
+      ["humanoid robot \u2192 人形机器人"],
+      ["humanoid robot \u2192 人形机器人"]
+    ]
+  },
+  {
+    id: "ecns-nation-to-advance-space-computing-indust-8fbd1b",
+    title: "Nation to advance space computing industry amid global race for tech edge",
+    titleZh: "太空算力争夺战：中国如何布局轨道数据处理新赛道",
+    source: "ECNS",
+    articleDate: "2026-04-10",
+    topic: "科技",
+    difficulty: "中等",
+    summary: "当卫星不再只是太空中的\"摄像头\"，而是搭载AI芯片和服务器的轨道计算中心——中国正加速推进太空计算产业政策，抢占全球技术竞赛的制高点。",
+    paragraphs: [
+      "China is set to roll out policies to accelerate the development of the space computing industry, a strategic move that could reshape how data is processed in orbit and cement the nation\u2019s position in the global technology race, the country\u2019s top industry regulator said.",
+      "Space computing refers to the use of computing capabilities in orbit, which enables satellite networks to achieve seamless global coverage.",
+      "Unlike conventional satellites, which function merely as cameras that capture data and transmit vast amounts of raw information back to ground stations for processing, space computing involves satellites equipped with onboard servers, artificial intelligence chips and storage devices, officials and experts said.",
+      "This enables the satellites to collect and analyze data, as well as make decisions in real time, cutting data processing time from several hours to seconds. The satellites also overcome the limitations of energy and space faced by ground-based data centers, they added.",
+      "Zhao Ce, deputy head of the department of information and communication technology development at the Ministry of Industry and Information Technology, said that compared with ground-based data centers, space computing offers advantages such as real-time in-orbit processing, low-cost energy supply and wide-area coverage.",
+      "\"These features will help enhance our ability to harness space energy and improve global coverage and anti-jamming capabilities,\" Zhao said, pointing out the strategic value and promising industrial prospects of the emerging sector.",
+      "\"We will strengthen systematic planning, deepen industrial cultivation, and promote coordinated breakthroughs to advance the space computing industry in a solid and orderly manner,\" Zhao added.",
+      "The global in-orbit data center market is projected to reach $39.09 billion by 2035, with a compound annual growth rate of 67.4 percent, according to the market research company BIS Research."
+    ],
+    referenceTranslations: [
+      "\u3010待补充参考译文\u3011本段约 44 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 20 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 42 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 43 个英文单词，3 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 43 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 33 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 26 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 31 个英文单词，4 个句子。请在 articles.js 中手动填写参考译文。"
+    ],
+    techniqueNotes: [
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "通读理解：先把握整段大意，再逐句翻译。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "长句拆分：本段有较长的句子，建议先找到主干，再处理修饰成分。",
+      "引语处理：注意说话者与引语的位置调整，中文习惯把说话者放在引语前面或中间。"
+    ],
+    terminologyHints: [
+      ["AI \u2192 人工智能/AI", "space computing \u2192 太空计算"],
+      ["satellite \u2192 卫星", "space computing \u2192 太空计算"],
+      ["artificial intelligence \u2192 人工智能", "AI \u2192 人工智能/AI", "chip \u2192 芯片", "satellite \u2192 卫星"],
+      ["satellite \u2192 卫星"],
+      ["AI \u2192 人工智能/AI", "space computing \u2192 太空计算"],
+      ["AI \u2192 人工智能/AI"],
+      ["space computing \u2192 太空计算"],
+      []
+    ]
+  },
+  {
+    id: "ecns-5-7-magnitude-earthquake-hits-u-s-state-3ae35c",
+    title: "5.7 magnitude earthquake hits U.S. state Nevada",
+    titleZh: "美国内华达州发生5.7级地震，震感波及多地",
+    source: "ECNS",
+    articleDate: "2026-04-14",
+    topic: "社会",
+    difficulty: "中等",
+    summary: "美国内华达州北部发生5.7级地震，震中位于里昂县银泉镇东南约20公里处，震感波及加州部分地区，ShakeAlert系统及时发出预警。目前暂无重大损失报告。",
+    paragraphs: [
+      "A magnitude 5.7 earthquake struck northern Nevada on Monday evening, the U.S. Geological Survey (USGS) reported.",
+      "The quake occurred at around 6:29 p.m. local time (0129 GMT Tuesday), approximately 20 km southeast of Silver Springs in Lyon County, triggering a ShakeAlert notification across the region.",
+      "Tremors were felt by residents in parts of northern Nevada as well as nearby areas of California.",
+      "No significant damage or injuries have been reported so far, Lyon County authorities said in a statement on the county\u2019s website.",
+      "\"Lyon County Emergency Management immediately activated coordination efforts with local public safety agencies, utilities, school districts, and healthcare facilities. At this time, no major damage has been reported to critical infrastructure, including hospitals, schools, transportation systems, or utility services,\" the statement said.",
+      "As a precaution, response teams will continue to carry out comprehensive damage assessments across the county in the coming days.",
+      "The USGS reported a series of aftershocks ranging in magnitude from 2.5 to 3.6.",
+      "The Nevada Office of Emergency Management noted that earthquakes often occur in sequences, adding that aftershocks are \"normal and expected.\""
+    ],
+    referenceTranslations: [
+      "\u3010待补充参考译文\u3011本段约 16 个英文单词，5 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 29 个英文单词，4 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 17 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 21 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 42 个英文单词，3 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 20 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 14 个英文单词，4 个句子。请在 articles.js 中手动填写参考译文。",
+      "\u3010待补充参考译文\u3011本段约 20 个英文单词，2 个句子。请在 articles.js 中手动填写参考译文。"
+    ],
+    techniqueNotes: [
+      "通读理解：先把握整段大意，再逐句翻译。",
+      "专有名词：本段包含多个专有名词，注意统一使用通行译法。",
+      "并列与递进：英文并列结构在中文中可适当拆分层次，保持节奏感。",
+      "引语处理：注意说话者与引语的位置调整，中文习惯把说话者放在引语前面或中间。",
+      "引语处理：注意说话者与引语的位置调整，中文习惯把说话者放在引语前面或中间。",
+      "展望类表达：将来时态的处理，注意区分确定计划和预测推断的不同译法。",
+      "通读理解：先把握整段大意，再逐句翻译。",
+      "引语处理：注意说话者与引语的位置调整，中文习惯把说话者放在引语前面或中间。"
+    ],
+    terminologyHints: [
+      [],
+      [],
+      [],
+      ["AI \u2192 人工智能/AI"],
+      ["AI \u2192 人工智能/AI", "infrastructure \u2192 基础设施"],
+      [],
+      [],
+      []
+    ]
+  },
+  {
+    id: "economist-ai-reshaping-labour-markets-2026",
+    title: "The Great Displacement: How AI Is Reshaping Labour Markets",
+    titleZh: "大替代：人工智能如何重塑劳动力市场",
+    source: "The Economist",
+    articleDate: "2026-04-10",
+    topic: "科技",
+    difficulty: "中高级",
+    summary: "人工智能正以前所未有的速度渗透白领行业，从法律文书到财务分析，大量中等技能岗位面临自动化替代。各国政府在再培训计划与社会保障之间艰难抉择。",
+    paragraphs: [
+      "The notion that artificial intelligence would primarily displace blue-collar workers has been quietly overturned by the technology's latest incarnation. Large language models, capable of drafting legal briefs, synthesising financial reports and even composing marketing copy, have thrust white-collar professionals into an unfamiliar state of vulnerability. According to a recent study by the OECD, nearly 27 percent of jobs in advanced economies now rely heavily on skills that could be automated by generative AI within the next decade—a figure that has sent tremors through boardrooms and policy circles alike.",
+      "The consequences, however, are far from uniform. In sectors such as accounting and paralegal services, firms have already begun replacing junior staff with AI-driven platforms that promise greater speed at a fraction of the cost. Yet in creative industries—advertising, architecture, investigative journalism—the technology appears to function more as an augmentation tool than a substitute, amplifying human ingenuity rather than rendering it obsolete. This bifurcation has given rise to what labour economists call a 'hollowing out' of the middle, where routine cognitive tasks vanish while demand surges for both highly skilled strategists and low-paid manual workers.",
+      "Governments, for their part, are scrambling to respond. Singapore has launched a nationwide reskilling initiative that subsidises AI literacy courses for displaced professionals, while Germany has opted to strengthen its apprenticeship system with digital modules. Critics argue that such measures, however well-intentioned, amount to little more than sticking plasters on a structural wound. Without a fundamental rethinking of social safety nets—including, perhaps, some form of universal basic income—the dislocations wrought by AI could exacerbate inequality to a degree not seen since the early days of industrialisation."
+    ],
+    referenceTranslations: [
+      "人工智能主要冲击蓝领工人的观念，已被这项技术的最新形态悄然颠覆。能够起草法律文书、综合财务报告乃至撰写营销文案的大语言模型，使白领专业人士陷入了一种前所未有的脆弱境地。经合组织近期一项研究显示，发达经济体中近27%的工作岗位严重依赖可能在未来十年内被生成式AI自动化的技能——这一数据在企业高管层和政策圈引发了广泛震动。",
+      "然而，其影响远非整齐划一。在会计和律师助理等行业，企业已开始用AI驱动的平台取代初级员工，这些平台以极低的成本提供更高的效率。但在创意产业——广告、建筑设计、调查性新闻——中，该技术更像是一种增强工具而非替代品，放大的是人类的创造力而非使其过时。这种分化催生了劳动经济学家所说的\"中间掏空\"现象：常规性认知任务消失的同时，对高技能战略人才和低薪体力劳动者的需求却双双激增。",
+      "各国政府正在手忙脚乱地应对。新加坡推出了全国性再培训计划，为失业专业人士提供AI素养课程补贴；德国则选择在其学徒制体系中增设数字化模块。批评者指出，此类措施无论初衷多好，不过是在结构性创伤上贴创可贴。如果不从根本上反思社会保障网络——或许包括某种形式的全民基本收入——AI造成的错位可能加剧不平等，其程度将是工业化初期以来未曾见过的。"
+    ],
+    techniqueNotes: [
+      "被动语态转化：英文大量使用被动（has been overturned, could be automated），中文宜转为主动句式以更自然。注意长句拆分，如将定语从句独立成短句。",
+      "对比结构处理：本段有明显的'however/yet/while'对比框架，翻译时要凸显转折关系。专业术语如'hollowing out'可采用加引号直译+解释的策略。",
+      "排比与举例：多国政策并列时，中文可用分号隔开形成整齐节奏。比喻表达如'sticking plasters on a structural wound'需要找到同等力度的中文意象。"
+    ],
+    terminologyHints: [
+      [{term:"large language models",translation:"大语言模型"},{term:"generative AI",translation:"生成式AI"},{term:"OECD",translation:"经合组织"},{term:"white-collar",translation:"白领"}],
+      [{term:"augmentation tool",translation:"增强工具"},{term:"hollowing out",translation:"中间掏空/空心化"},{term:"bifurcation",translation:"分化"},{term:"paralegal",translation:"律师助理"}],
+      [{term:"reskilling initiative",translation:"再培训计划"},{term:"universal basic income",translation:"全民基本收入"},{term:"social safety nets",translation:"社会保障网络"},{term:"dislocation",translation:"错位/失序"}]
+    ]
+  },
+  {
+    id: "guardian-ocean-microplastics-crisis-2026",
+    title: "Drowning in Particles: The Escalating Crisis of Ocean Microplastics",
+    titleZh: "溺于微粒：海洋微塑料危机的加剧",
+    source: "The Guardian",
+    articleDate: "2026-04-08",
+    topic: "环境",
+    difficulty: "中高级",
+    summary: "科学家在深海沉积物和北极冰芯中发现微塑料浓度创下新高，海洋食物链正面临全面污染。国际社会就全球塑料条约的谈判进展缓慢，各方分歧明显。",
+    paragraphs: [
+      "Beneath the surface of the world's oceans, an invisible crisis is accelerating. Microplastics—fragments smaller than five millimetres, shed from synthetic clothing, degraded packaging and industrial processes—have now been detected in the deepest trenches of the Pacific and embedded in Arctic ice cores dating back decades. A landmark study published in Nature Geoscience this month estimated that approximately 170 trillion plastic particles are currently suspended in the upper layers of the ocean, a figure that has tripled since 2015 and shows no sign of plateauing.",
+      "The ecological ramifications are both profound and poorly understood. Filter-feeding organisms such as mussels and baleen whales ingest thousands of microplastic particles daily, which accumulate in their tissues and are subsequently transferred up the food chain to apex predators—and, ultimately, to humans. Emerging research from the University of Exeter has linked chronic microplastic exposure in marine species to endocrine disruption, reduced fertility and compromised immune function, though scientists caution that extrapolating these findings to human health remains fraught with uncertainty.",
+      "Politically, the response has been halting. Negotiations for a legally binding global plastics treaty, conducted under the auspices of the United Nations Environment Programme, have stalled over fundamental disagreements between petrochemical-producing nations, which favour downstream waste management, and a coalition of island states and European countries pushing for upstream production caps. Without a binding framework that addresses the entire lifecycle of plastics—from polymer production to ocean remediation—environmentalists warn that the deluge of microplastics entering marine ecosystems will only intensify in the decades ahead."
+    ],
+    referenceTranslations: [
+      "在世界海洋的表面之下，一场隐形危机正在加速蔓延。微塑料——那些小于五毫米的碎片，源自合成纤维服装、降解的包装材料和工业生产过程——如今已在太平洋最深的海沟中被检测到，并嵌入了可追溯数十年的北极冰芯之中。本月发表在《自然·地球科学》上的一项里程碑式研究估计，目前约有170万亿个塑料微粒悬浮在海洋上层水域，这一数字自2015年以来已增长两倍，且毫无趋于平稳的迹象。",
+      "其生态影响既深远又鲜为人知。贻贝和须鲸等滤食性生物每天摄入数以千计的微塑料颗粒，这些颗粒在其组织中累积，随后沿食物链向上传递至顶级捕食者——并最终进入人体。埃克塞特大学的最新研究将海洋物种长期暴露于微塑料与内分泌紊乱、生育能力下降和免疫功能受损联系起来，但科学家提醒，将这些发现推及人类健康仍充满不确定性。",
+      "在政治层面，各方的应对步履蹒跚。在联合国环境规划署主持下进行的全球塑料条约谈判，因石化生产国与岛屿国家及欧洲国家联盟之间的根本分歧而陷入僵局——前者倾向于下游废物管理，后者则推动上游生产限额。环保人士警告，如果没有一个涵盖塑料全生命周期——从聚合物生产到海洋修复——的约束性框架，未来数十年流入海洋生态系统的微塑料洪流只会愈演愈烈。"
+    ],
+    techniqueNotes: [
+      "破折号与插入语：英文用破折号做补充说明，中文翻译时可保留破折号或改为括号/逗号。注意大数字的中文表达习惯（trillion→万亿）。",
+      "学术表达的通俗化：如'endocrine disruption'等专业术语需译准，同时'extrapolating findings'等学术动词可适度口语化以增强可读性。",
+      "政治博弈的对比表达：本段核心是谈判双方立场的对照，翻译时要清晰呈现'前者…后者…'的逻辑关系。注意'under the auspices of'等外交用语的惯译。"
+    ],
+    terminologyHints: [
+      [{term:"microplastics",translation:"微塑料"},{term:"Arctic ice cores",translation:"北极冰芯"},{term:"Nature Geoscience",translation:"《自然·地球科学》"},{term:"plateauing",translation:"趋于平稳"}],
+      [{term:"filter-feeding organisms",translation:"滤食性生物"},{term:"endocrine disruption",translation:"内分泌紊乱"},{term:"apex predators",translation:"顶级捕食者"},{term:"extrapolating",translation:"推及/外推"}],
+      [{term:"legally binding treaty",translation:"具有法律约束力的条约"},{term:"UNEP",translation:"联合国环境规划署"},{term:"upstream production caps",translation:"上游生产限额"},{term:"polymer",translation:"聚合物"}]
+    ]
+  },
+  {
+    id: "nyt-remote-work-future-2026",
+    title: "The Office Reimagined: Remote Work's Lasting Transformation",
+    titleZh: "办公室的重塑：远程工作的深远变革",
+    source: "NYT",
+    articleDate: "2026-04-12",
+    topic: "社会",
+    difficulty: "中等",
+    summary: "后疫情时代，远程与混合办公模式已从应急方案演变为常态。企业在生产力、员工福祉与企业文化之间寻找平衡，城市地理格局也随之改变。",
+    paragraphs: [
+      "Six years after the pandemic first emptied office towers across the globe, the debate over remote work has entered a new and more nuanced phase. The binary framing that once dominated—office versus home, productivity versus flexibility—has given way to a patchwork of hybrid arrangements that vary not only by industry but by individual role and seniority. A survey conducted by Stanford University's Institute for Economic Policy Research found that 38 percent of American workers now operate on a hybrid schedule, while fully remote positions, once dismissed as a temporary aberration, account for a stable 14 percent of the workforce.",
+      "For employers, the calculus has grown increasingly complex. Technology giants such as Google and Meta have mandated partial returns to the office, citing concerns about innovation stagnation and the erosion of workplace culture, only to face pushback from employees who have restructured their lives around geographic freedom. Meanwhile, a cohort of younger firms—particularly in software development and digital marketing—have embraced a 'remote-first' ethos, arguing that the elimination of commuting time and the ability to recruit from a global talent pool more than compensate for the intangible losses of in-person collaboration.",
+      "The ripple effects extend well beyond corporate policy. Secondary cities such as Austin, Lisbon and Fukuoka have experienced population surges as remote workers seek lower costs of living without sacrificing career prospects, reshaping urban planning priorities and straining local infrastructure. Conversely, traditional commercial hubs like Midtown Manhattan and the City of London are grappling with persistently elevated vacancy rates, prompting ambitious—and controversial—proposals to convert office buildings into residential housing. What began as a public-health expedient has, it seems, permanently redrawn the geography of work."
+    ],
+    referenceTranslations: [
+      "疫情导致全球写字楼人去楼空六年之后，围绕远程办公的争论已进入一个更加微妙的新阶段。曾经占据主导地位的二元对立框架——办公室与居家、效率与灵活性——已让位于一种因行业、岗位乃至资历而异的混合办公拼图。斯坦福大学经济政策研究所的一项调查发现，38%的美国劳动者目前采用混合办公时间表，而完全远程的岗位——一度被视为暂时性反常——已稳定占据劳动力市场的14%。",
+      "对雇主而言，这笔账越来越难算。谷歌、Meta等科技巨头已要求员工部分时间回到办公室，理由是担忧创新停滞和职场文化侵蚀，却遭到已围绕地理自由重新规划生活的员工的抵制。与此同时，一批更年轻的企业——尤其在软件开发和数字营销领域——奉行\"远程优先\"理念，认为消除通勤时间和从全球人才库招聘的能力，足以弥补面对面协作的无形损失。",
+      "连锁反应远不止于企业政策层面。奥斯汀、里斯本、福冈等二线城市因远程工作者追求更低的生活成本而不牺牲职业前景，经历了人口激增，这重塑了城市规划重点，也给本地基础设施带来了压力。相反，曼哈顿中城和伦敦金融城等传统商业中心正艰难应对持续高企的空置率，由此催生了将写字楼改建为住宅的雄心勃勃——也颇具争议——的方案。始于公共卫生应急之举，似乎已永久性地改写了工作的地理版图。"
+    ],
+    techniqueNotes: [
+      "长句拆分与重组：首句含多层定语和时间状语，中文翻译宜先确定主干再逐层嵌套。'binary framing'等概念化表达需找到简洁对应。",
+      "引号词汇的处理：'remote-first'是新造复合词，翻译时加引号保留其标签感。注意'calculus'在此处非数学含义，而是'考量/权衡'。",
+      "地名列举与对比：本段涉及多个城市名，需统一使用通行中文译名。'what began as... has permanently...'这类总结句型，翻译时可适当调整语序以增强收束感。"
+    ],
+    terminologyHints: [
+      [{term:"hybrid arrangements",translation:"混合办公安排"},{term:"aberration",translation:"反常/异常"},{term:"Institute for Economic Policy Research",translation:"经济政策研究所"}],
+      [{term:"innovation stagnation",translation:"创新停滞"},{term:"remote-first ethos",translation:"远程优先理念"},{term:"global talent pool",translation:"全球人才库"},{term:"pushback",translation:"抵制/反对"}],
+      [{term:"vacancy rates",translation:"空置率"},{term:"secondary cities",translation:"二线城市"},{term:"public-health expedient",translation:"公共卫生应急之举"},{term:"urban planning",translation:"城市规划"}]
+    ]
+  },
+  {
+    id: "bbc-social-media-teen-mental-health-2026",
+    title: "Scrolling into Anxiety: Social Media's Toll on Teenage Mental Health",
+    titleZh: "滑入焦虑：社交媒体对青少年心理健康的冲击",
+    source: "BBC",
+    articleDate: "2026-04-05",
+    topic: "社会",
+    difficulty: "中等",
+    summary: "多国研究证实社交媒体使用与青少年焦虑、抑郁显著相关。各国纷纷出台监管措施，但在保护未成年人与维护言论自由之间仍存在张力。",
+    paragraphs: [
+      "A growing body of longitudinal research is lending empirical weight to what parents and educators have long suspected: that heavy social media use is taking a measurable toll on the mental health of young people. A meta-analysis published in The Lancet Child & Adolescent Health, drawing on data from 47 countries and over 250,000 participants aged 12 to 18, found that adolescents who spent more than three hours daily on platforms such as Instagram, TikTok and Snapchat were twice as likely to report symptoms of anxiety and depression as their less-connected peers.",
+      "The mechanisms at play are multifaceted. Algorithmic recommendation systems, engineered to maximise engagement, tend to funnel vulnerable teenagers toward increasingly extreme or distressing content, creating feedback loops that reinforce negative self-perception. The relentless culture of comparison—curated lifestyles, filtered selfies, metrics of social validation in the form of likes and followers—has been shown to erode self-esteem with particular severity among adolescent girls. Sleep disruption, another well-documented consequence of late-night scrolling, further compounds the psychological burden by impairing emotional regulation and cognitive function.",
+      "Legislative responses have proliferated, though their effectiveness remains hotly contested. Australia has enacted a blanket ban on social media for children under 16, while the European Union's Digital Services Act imposes stringent obligations on platforms to audit their algorithms for harm to minors. In the United States, where First Amendment considerations complicate regulatory efforts, a bipartisan coalition in Congress has proposed the Kids Online Safety Act, which would require platforms to disable addictive design features for underage users. Yet sceptics caution that without addressing the underlying commercial incentives that drive engagement-maximising design, such legislation risks being perpetually outpaced by technological innovation."
+    ],
+    referenceTranslations: [
+      "越来越多的纵向研究正在为家长和教育工作者长久以来的怀疑提供实证支撑：大量使用社交媒体正对年轻人的心理健康产生可衡量的损害。发表在《柳叶刀·儿童与青少年健康》上的一项荟萃分析——涵盖47个国家、25万余名12至18岁参与者的数据——发现，每天在Instagram、TikTok和Snapchat等平台上花费超过三小时的青少年，报告焦虑和抑郁症状的可能性是较少使用社交媒体的同龄人的两倍。",
+      "其中的作用机制是多层面的。以最大化用户参与度为设计目标的算法推荐系统，往往将脆弱的青少年引向越来越极端或令人不安的内容，形成强化负面自我认知的反馈循环。无处不在的比较文化——精心策划的生活方式、加了滤镜的自拍、以点赞和粉丝数为形式的社交认同指标——已被证明对自尊心有严重的侵蚀作用，在青春期女孩群体中尤为突出。深夜刷屏导致的睡眠紊乱——另一个有充分记录的后果——通过损害情绪调节和认知功能，进一步加重了心理负担。",
+      "各国立法应对措施纷至沓来，但其成效仍存在激烈争议。澳大利亚对16岁以下儿童实施了社交媒体全面禁令，而欧盟《数字服务法》则要求平台对其算法进行严格审计，评估对未成年人的危害。在美国，第一修正案的考量使监管工作复杂化，国会中一个两党联盟提出了《儿童在线安全法》，要求平台为未成年用户禁用令人上瘾的设计功能。然而，怀疑者警告说，如果不解决驱动参与度最大化设计的底层商业激励，此类立法将面临被技术创新永远甩在身后的风险。"
+    ],
+    techniqueNotes: [
+      "学术引用的翻译：期刊名称用书名号，数据表述要精准。'lending empirical weight to'这类学术表达可译为更通顺的中文，如'提供实证支撑'。",
+      "因果链条的展现：本段层层递进揭示机制，翻译时要保持逻辑链清晰。注意'feedback loops'等技术比喻的处理，以及破折号插入语的灵活转换。",
+      "法律条文名称：各国法律名称需查证通行译法并加书名号。'First Amendment'译为'第一修正案'是固定译法。注意末句的让步-转折结构。"
+    ],
+    terminologyHints: [
+      [{term:"longitudinal research",translation:"纵向研究"},{term:"meta-analysis",translation:"荟萃分析"},{term:"The Lancet",translation:"《柳叶刀》"},{term:"empirical",translation:"实证的"}],
+      [{term:"algorithmic recommendation systems",translation:"算法推荐系统"},{term:"feedback loops",translation:"反馈循环"},{term:"self-esteem",translation:"自尊心"},{term:"emotional regulation",translation:"情绪调节"}],
+      [{term:"Digital Services Act",translation:"《数字服务法》"},{term:"First Amendment",translation:"第一修正案"},{term:"addictive design features",translation:"令人上瘾的设计功能"},{term:"bipartisan",translation:"两党的"}]
+    ]
+  },
+  {
+    id: "ft-climate-change-food-security-2026",
+    title: "Harvest of Uncertainty: Climate Change and the Global Food Supply",
+    titleZh: "不确定的收成：气候变化与全球粮食供应",
+    source: "Financial Times",
+    articleDate: "2026-04-03",
+    topic: "环境",
+    difficulty: "高级",
+    summary: "极端天气频发严重冲击全球主要粮食产区，小麦、水稻等主粮产量下滑引发价格波动。发展中国家面临的粮食安全危机尤为严峻，国际合作亟待加强。",
+    paragraphs: [
+      "The arithmetic of global food production is being rewritten by a climate that no longer behaves within historical parameters. Prolonged droughts in the North American wheat belt, unprecedented flooding across South and Southeast Asia's rice paddies, and a succession of erratic growing seasons in sub-Saharan Africa have collectively driven staple crop yields to their lowest levels in over a decade. The Food and Agriculture Organization's latest quarterly report paints a stark picture: global wheat output fell 8 percent year-on-year in the first quarter of 2026, while rice production in India—the world's largest exporter—declined by 12 percent, triggering export restrictions that have sent shockwaves through international commodity markets.",
+      "The vulnerability is not distributed evenly. Wealthy nations possess the fiscal capacity to subsidise domestic agriculture, stockpile strategic grain reserves and pivot toward climate-resilient crop varieties developed through advanced genomic techniques. For the 78 countries classified by the World Bank as low-income, however, such adaptive measures remain largely unaffordable. In the Horn of Africa, where consecutive failed rainy seasons have left 23 million people in acute food insecurity, the gap between humanitarian need and international donor commitments continues to widen—a disparity that the World Food Programme's executive director has described as 'a moral failure of staggering proportions.'",
+      "Bridging that gap will require more than emergency aid. Agricultural economists increasingly advocate for a systemic overhaul of global food governance, encompassing reformed trade rules that prevent panic-driven export bans, massively scaled investment in smallholder irrigation and soil conservation, and the accelerated deployment of drought-tolerant seed varieties to the regions most acutely affected. Yet such ambitions collide with a geopolitical landscape in which food has become an instrument of strategic leverage, and where the multilateral institutions designed to coordinate collective action—the WTO, the FAO, the G20—are themselves riven by competing national interests and eroding trust."
+    ],
+    referenceTranslations: [
+      "全球粮食生产的基本算式，正被一个不再遵循历史规律的气候所改写。北美小麦带的持续干旱、南亚和东南亚稻田史无前例的洪涝，以及撒哈拉以南非洲接连不断的反常生长季，共同将主粮作物产量推至十余年来的最低水平。联合国粮农组织最新季度报告描绘了一幅严峻图景：2026年第一季度全球小麦产量同比下降8%，而印度——全球最大的大米出口国——的稻米产量下滑12%，由此引发的出口限制措施在国际大宗商品市场掀起了冲击波。",
+      "这种脆弱性的分布极不均衡。富裕国家拥有充足的财政能力来补贴国内农业、储备战略粮食、并转向通过先进基因组技术培育的气候适应性作物品种。然而，对于世界银行列为低收入的78个国家而言，此类适应措施在很大程度上仍是承担不起的奢侈。在非洲之角，连续多个雨季歉收已导致2300万人陷入严重粮食不安全状态，人道主义需求与国际捐助承诺之间的鸿沟持续扩大——世界粮食计划署执行主任将这种落差形容为'一场规模惊人的道德失败'。",
+      "弥合这一鸿沟需要的远不止紧急援助。农业经济学家日益主张对全球粮食治理进行系统性改革，包括改革贸易规则以防止恐慌性出口禁令、大规模扩大对小农户灌溉和土壤保护的投资，以及加速向受影响最严重的地区推广抗旱种子品种。然而，这些雄心壮志与当下的地缘政治格局发生了碰撞——在这一格局中，粮食已成为战略博弈的工具，而旨在协调集体行动的多边机构——世贸组织、粮农组织、G20——其自身也被相互竞争的国家利益和日益侵蚀的信任所撕裂。"
+    ],
+    techniqueNotes: [
+      "数据密集段的处理：本段包含多组统计数据和机构名称，翻译时要确保数字精确、机构名称使用官方中文译名。注意'arithmetic'在此处是比喻用法。",
+      "弱势群体的表达：引语翻译保留引号和说话者身份。'a moral failure of staggering proportions'等情感强烈的表达，翻译时要保持同等力度。",
+      "政策建议的层次感：本段是多层并列的政策主张，翻译时用'包括…、…以及…'等结构保持层次清晰。末句复杂的让步-转折需仔细拆分。"
+    ],
+    terminologyHints: [
+      [{term:"FAO",translation:"联合国粮农组织"},{term:"staple crop yields",translation:"主粮作物产量"},{term:"commodity markets",translation:"大宗商品市场"},{term:"export restrictions",translation:"出口限制"}],
+      [{term:"food insecurity",translation:"粮食不安全"},{term:"climate-resilient crop varieties",translation:"气候适应性作物品种"},{term:"World Food Programme",translation:"世界粮食计划署"},{term:"genomic techniques",translation:"基因组技术"}],
+      [{term:"smallholder irrigation",translation:"小农户灌溉"},{term:"drought-tolerant seed varieties",translation:"抗旱种子品种"},{term:"multilateral institutions",translation:"多边机构"},{term:"strategic leverage",translation:"战略博弈/战略杠杆"}]
+    ]
+  },
+  {
+    id: "guardian-jose-andres-iran-war-famine-2026",
+    title: "Chef José Andrés warns of multi-year world famine from Iran war",
+    titleZh: "名厨安德烈斯警告：伊朗战争将引发持续数年的全球饥荒",
+    source: "The Guardian",
+    articleDate: "2026-04-16",
+    topic: "国际/粮食安全",
+    difficulty: "中高级",
+    summary: "世界中央厨房创始人安德烈斯指出，伊朗战争导致全球化肥贸易的隐性崩溃，可能在2026年秋至2027年引发大规模饥荒，呼吁各国拿出GDP的3%建立和平基金。",
+    paragraphs: [
+      "The World Central Kitchen (WCK) founder believes that the world is sleepwalking into a massive, multi-year famine, being slow-walked by the \"silent\" collapse of the global fertilizer trade as a byproduct of the war with Iran.\n\n\"I foresee a very big increase in famine across the world by the fall of 2026 and 2027,\" Andrés told the Guardian on the sidelines of Semafor's global economy conference in Washington.",
+      "The danger, he explained, was the delay. When fertilizers don't arrive in time for key planting windows, yields can fall in the following harvest cycle. Disruptions in global trade can ripple into higher prices and lower output, hitting the poorest countries hardest.\n\n\"In America, you can have a 2% or 3% increase and people will manage,\" he said. \"But in places like Haiti, they don't serve you a kilo of rice, they serve you one ounce at a time. Those people are going to be suffering the consequences.\"",
+      "As the US and Europe grapple with the migration question, the political consensus has coalesced around the idea that there should be more barriers. Trump's One Big Beautiful Bill Act, signed into law last July, authorized $165bn for the Department of Homeland Security, including $46.5bn specifically for the border wall.\n\nAndrés has a message for those who think the solution is more concrete and blockages. Hunger, he said, is the ultimate border-crosser.\n\n\"We can build all the walls we want, but if there are hungry mothers that need to feed their children, there is no wall thick or big enough that is going to stop them,\" he said."
+    ],
+    referenceTranslations: [
+      "世界中央厨房（WCK）创始人认为，全世界正在梦游般地走向一场大规模、持续数年的饥荒——伊朗战争的副产品——全球化肥贸易的\\\"无声\\\"崩溃正在悄然推动这一进程。\n\n\\\"我预计到2026年秋季和2027年，全球饥荒将出现非常大幅度的加剧，\\\"安德烈斯在华盛顿出席Semafor全球经济峰会期间接受《卫报》采访时表示。",
+      "他解释说，危险在于滞后效应。当化肥未能在关键播种窗口期及时运达，下一个收获周期的产量就可能下滑。全球贸易中断会以连锁反应的方式推高价格、压低产出，而最贫穷的国家首当其冲。\n\n\\\"在美国，物价涨个2%、3%，人们还能应付，\\\"他说，\\\"但在海地这样的地方，人们吃米饭不是按公斤来的，而是一次只能吃一盎司。这些人将承受最惨痛的后果。\\\"",
+      "在美国和欧洲艰难应对移民问题之际，政治共识已经凝聚在\\\"应该设置更多壁垒\\\"这一理念上。特朗普去年七月签署生效的《一揽子美丽法案》为国土安全部拨款1650亿美元，其中465亿美元专门用于修建边境墙。\n\n安德烈斯向那些认为解决方案是更多水泥和封锁的人传递了一个信息。他说，饥饿才是真正的\\\"翻墙者\\\"。\n\n\\\"我们想建多少墙都可以建，但如果有饥饿的母亲需要喂养她们的孩子，没有任何一堵墙能厚到、高到阻止她们，\\\"他说。"
+    ],
+    techniqueNotes: [
+      "比喻翻译与长句拆分：sleepwalking into 和 slow-walked by 构成双重隐喻，翻译时需将\\\"梦游\\\"和\\\"悄然推动\\\"两层意象分开处理。byproduct 在此非科学语境，译为\\\"副产品\\\"保留因果暗示。on the sidelines of 是新闻高频搭配，译为\\\"在……期间\\\"或\\\"在……间隙\\\"。",
+      "数据对比与引语还原：本段的核心技巧是\\\"对比翻译\\\"——2%~3%与\\\"一盎司\\\"的鲜明对照需在译文中同样突出。ripple into 用\\\"连锁反应\\\"落地比直译\\\"涟漪\\\"更通顺。引语中口语化的 they serve you 保持第二人称转述。",
+      "政治术语与修辞处理：One Big Beautiful Bill Act 为专有法案名，采用意译加注。coalesced around 译为\\\"凝聚在……上\\\"。末段三句构成递进修辞——先陈述政策，再亮出反驳，最后以引语收束——翻译时要保持这一节奏感。the ultimate border-crosser 是全文点睛之笔，译为\\\"真正的翻墙者\\\"既扣题又有力。"
+    ],
+    terminologyHints: [
+      [{term:"World Central Kitchen",translation:"世界中央厨房"},{term:"sleepwalking into",translation:"梦游般走向"},{term:"fertilizer trade",translation:"化肥贸易"},{term:"on the sidelines of",translation:"在……间隙/期间"}],
+      [{term:"planting windows",translation:"播种窗口期"},{term:"harvest cycle",translation:"收获周期"},{term:"ripple into",translation:"以连锁反应波及"}],
+      [{term:"war powers resolution",translation:"战争权力决议"},{term:"One Big Beautiful Bill Act",translation:"《一揽子美丽法案》"},{term:"Department of Homeland Security",translation:"国土安全部"},{term:"border-crosser",translation:"越境者/翻墙者"}]
+    ]
+  },
+  {
+    id: "guardian-atlantic-current-collapse-2026",
+    title: "Critical Atlantic current significantly more likely to collapse than thought",
+    titleZh: "大西洋关键洋流崩溃的可能性远超预期",
+    source: "The Guardian",
+    articleDate: "2026-04-15",
+    topic: "环境/气候",
+    difficulty: "高级",
+    summary: "最新研究发现，预测大西洋经向翻转环流（AMOC）减速最严重的气候模型最接近现实，到2100年减速42%-58%几乎必然导致崩溃，对欧洲、非洲和美洲产生灾难性影响。",
+    paragraphs: [
+      "The critical Atlantic current system appears significantly more likely to collapse than previously thought after new research found that climate models predicting the biggest slowdown are the most realistic. Scientists called the new finding \"very concerning\" as a collapse would have catastrophic consequences for Europe, Africa and the Americas.",
+      "The Amoc is a major part of the global climate system and brings sun-warmed tropical water to Europe and the Arctic, where it cools and sinks to form a deep return current. A collapse would shift the tropical rainfall belt on which many millions of people rely to grow their food, plunge western Europe into extreme cold winters and summer droughts, and add 50-100cm to already rising sea levels around the Atlantic.",
+      "Rahmstorf, who has studied the Amoc for 35 years, has said a collapse must be avoided \"at all costs\". \"I argued this when we thought the chance of an Amoc shutdown was maybe 5%, and even then we were saying that risk is too high, given the massive impacts. Now it looks like it's more than 50%. The most dramatic and drastic climate changes we see in the last 100,000 years of Earth history have been when the Amoc switched to a different state.\""
+    ],
+    referenceTranslations: [
+      "最新研究发现，预测大西洋洋流系统减速幅度最大的气候模型最接近现实观测，这意味着这一关键洋流系统崩溃的可能性远高于此前的估计。科学家称这一发现\\\"非常令人担忧\\\"，因为一旦崩溃，将对欧洲、非洲和美洲造成灾难性后果。",
+      "大西洋经向翻转环流（AMOC）是全球气候系统的重要组成部分，它将经太阳加热的热带海水输送至欧洲和北极地区，海水在那里冷却下沉，形成深层回流。一旦崩溃，热带降雨带将发生偏移——数以百万计的人依赖这条雨带种植粮食；西欧将陷入极端寒冬和夏季干旱；大西洋沿岸本已上升的海平面还将额外抬升50至100厘米。",
+      "研究AMOC长达35年的拉姆斯托夫曾表示，必须\\\"不惜一切代价\\\"阻止其崩溃。\\\"当我们认为AMOC停摆的概率大约只有5%时，我就在为此呼吁，当时我们就认为这一风险太高了，因为其影响是毁灭性的。而现在看来，这一概率已超过50%。在地球过去十万年的历史中，我们所见到的最剧烈、最极端的气候变化，都发生在AMOC切换到另一种状态的时候。\\\""
+    ],
+    techniqueNotes: [
+      "科技新闻导语重组：原文是一个由 after 引导的复合长句，中文宜拆为两句：先说研究发现，再说其含义。appears significantly more likely...than previously thought 这一\\\"比较+被动\\\"结构，可转化为主动表述\\\"可能性远高于此前的估计\\\"。",
+      "并列灾难后果的层次处理：原文用三个并列动词 shift / plunge / add 列举崩溃后果，中文翻译宜用破折号或分号拆分，避免一句话堆砌过多信息。on which many millions of people rely to grow their food 是定语从句插入，中文需单独处理为\\\"数以百万计的人依赖这条雨带种植粮食\\\"。",
+      "学者引语的忠实还原与语气传递：本段是直接引语嵌套间接引语，翻译时需保持拉姆斯托夫的语气强度——at all costs 译为\\\"不惜一切代价\\\"，the most dramatic and drastic 用\\\"最剧烈、最极端\\\"对译双重形容词。注意 it's more than 50% 中的口语缩写在中文中应还原为正式表述。"
+    ],
+    terminologyHints: [
+      [{term:"Atlantic current system",translation:"大西洋洋流系统"},{term:"climate models",translation:"气候模型"},{term:"catastrophic consequences",translation:"灾难性后果"}],
+      [{term:"Amoc (Atlantic Meridional Overturning Circulation)",translation:"大西洋经向翻转环流"},{term:"tropical rainfall belt",translation:"热带降雨带"},{term:"deep return current",translation:"深层回流"},{term:"sea levels",translation:"海平面"}],
+      [{term:"Amoc shutdown",translation:"AMOC停摆"},{term:"at all costs",translation:"不惜一切代价"},{term:"switched to a different state",translation:"切换到另一种状态"}]
+    ]
+  },
+  {
+    id: "guardian-house-war-powers-iran-2026",
+    title: "US House narrowly rejects war powers resolution as dissent grows",
+    titleZh: "美国众议院以微弱差距否决对伊战争权力决议，反战声浪渐涨",
+    source: "The Guardian",
+    articleDate: "2026-04-16",
+    topic: "国际政治",
+    difficulty: "中高级",
+    summary: "美国众议院以213比214的微弱差距否决了限制对伊军事行动的战争权力决议，尽管民主党人几乎团结一致投票反对继续参战，反映出对这场战争日益增长的不满。",
+    paragraphs: [
+      "The US House of Representatives on Thursday narrowly rejected a war powers resolution that would have prevented further military action against Iran, as Democrats united against continued US involvement in the conflict amid peace talks that have yet to make a breakthrough.",
+      "Two Democrats who shifted their positions said they were dissatisfied with Trump's handling of the conflict and were concerned that it could turn into a costly open-ended engagement.\n\n\"It's time to be done,\" Landsman said in a statement, last month that announced he would back Meeks's resolution when it came to the floor.\n\nArguing that the Trump administration had degraded Iran's ability to manufacture missiles and drones and disrupted their ability to obtain a nuclear weapon, he said: \"I trust our military planners and generals to execute on these goals. They have done so, and now it is time for the administration to end the operation before we become entangled in a conflict with no strategic logic.\"",
+      "\"When the United States echoes the rhetoric of its adversaries, we risk weakening the values that have long defined our leadership. America has always stood for something higher, especially restraint and moral clarity, and that's what the world expects from us,\" Cuellar said, adding that information he received about US strategy in the conflict has \"not been sufficient\"."
+    ],
+    referenceTranslations: [
+      "美国众议院周四以微弱差距否决了一项旨在阻止对伊朗进一步军事行动的战争权力决议。在和谈尚未取得突破之际，民主党人团结一致，投票反对美国继续介入这场冲突。",
+      "两名转变立场的民主党议员表示，他们对特朗普处理冲突的方式感到不满，并担忧冲突可能演变为一场代价高昂、没有尽头的军事行动。\n\n\\\"是时候结束了，\\\"兰兹曼在上月发布的一份声明中说道，宣布他将在决议提交全体表决时支持米克斯的提案。\n\n他指出，特朗普政府已经削弱了伊朗制造导弹和无人机的能力，并打乱了其获取核武器的进程，随后表示：\\\"我信任我们的军事策划者和将领们执行这些目标。他们已经做到了，现在是政府在我们陷入一场毫无战略逻辑的冲突之前结束行动的时候了。\\\"",
+      "\\\"当美国重复其对手的措辞时，我们就有可能削弱长期以来定义我们领导地位的价值观。美国始终代表着更崇高的东西，尤其是克制与道德清醒，而这正是世界对我们的期待，\\\"库埃拉尔说道，并补充说他所获得的关于美国在这场冲突中战略部署的信息\\\"远远不够\\\"。"
+    ],
+    techniqueNotes: [
+      "新闻导语的浓缩与拆分：原文是一个包含 as 引导时间/原因从句和 amid 介词短语的超长单句。中文宜拆为两句：第一句交代投票结果，第二句补充政治背景。that would have prevented 是虚拟语气，需译出\\\"旨在阻止\\\"的未实现含义。have yet to make a breakthrough 用\\\"尚未取得突破\\\"保留外交措辞的审慎语气。",
+      "多层引语嵌套处理：本段含三个层次——叙述、间接引语、直接引语。shifted their positions 译为\\\"转变立场\\\"比\\\"改变立场\\\"更具政治新闻色彩。open-ended engagement 是军事委婉语，译为\\\"没有尽头的军事行动\\\"。degraded...ability 和 disrupted...ability 两个并列结构在中文中宜分别处理，避免句式雷同。",
+      "政治修辞的对等翻译：echoes the rhetoric of its adversaries 需精准传递\\\"回声/鹦鹉学舌\\\"的批评意味，译为\\\"重复其对手的措辞\\\"。restraint and moral clarity 是美国外交话语中的核心概念对，译为\\\"克制与道德清醒\\\"。not been sufficient 作为外交辞令式的轻描淡写（litotes），译为\\\"远远不够\\\"适当加重语气以还原言外之意。"
+    ],
+    terminologyHints: [
+      [{term:"war powers resolution",translation:"战争权力决议"},{term:"House of Representatives",translation:"众议院"},{term:"peace talks",translation:"和谈"},{term:"make a breakthrough",translation:"取得突破"}],
+      [{term:"open-ended engagement",translation:"无限期军事行动"},{term:"degraded Iran's ability",translation:"削弱伊朗的能力"},{term:"nuclear weapon",translation:"核武器"},{term:"strategic logic",translation:"战略逻辑"}],
+      [{term:"rhetoric",translation:"措辞/话语"},{term:"moral clarity",translation:"道德清醒"},{term:"restraint",translation:"克制"},{term:"adversaries",translation:"对手"}]
+    ]
+  }
+];
+
+// ============================================================
+// APP STATE
+// ============================================================
+const APP_KEY = 'translation-practice-v2';
+let state = {
+  currentArticleId: null,
+  currentParagraphIdx: null,
+  completedParagraphs: {},   // { articleId: [0,2,...] }
+  translations: {},          // { articleId: { paraIdx: text } }
+  reviews: {},               // { articleId: { paraIdx: { problem, learned, pattern, reminder } } }
+  customTranslations: {},    // { "articleId-paraIdx": "自定义参考译文" } (for built-in articles)
+  fetchedArticles: []        // articles fetched from RSS
+};
+
+// Load state from localStorage
+function loadState() {
+  try {
+    const saved = localStorage.getItem(APP_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // 清除包含 MYMEMORY WARNING 的坏数据
+      if (parsed.fetchedArticles) {
+        parsed.fetchedArticles = parsed.fetchedArticles.filter(a => {
+          const str = JSON.stringify(a);
+          return !str.includes('MYMEMORY') && !str.includes('TRANSLATED.NET');
+        });
+      }
+      Object.assign(state, parsed);
+    }
+  } catch (e) { console.warn('Failed to load state:', e); }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(APP_KEY, JSON.stringify(state));
+  } catch (e) { console.warn('Failed to save state:', e); }
+}
+
+// All articles = built-in + fetched
+function getAllArticles() {
+  return [...window.ARTICLES, ...state.fetchedArticles];
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type) {
+  const el = type === 'auto' ? document.getElementById('autoSaveToast') : document.getElementById('feedbackToast');
+  if (type !== 'auto') el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function autoSave() {
+  saveState();
+  showToast('', 'auto');
+}
+
+// ============================================================
+// FILTER TAGS
+// ============================================================
+function getTopics() {
+  const topics = new Set();
+  getAllArticles().forEach(a => { if (a.topic) topics.add(a.topic); });
+  return [...topics];
+}
+
+function renderFilterTags(container, activeFilter, onFilter) {
+  const topics = getTopics();
+  container.innerHTML = '<button class="filter-tag' + (activeFilter === 'all' ? ' active' : '') + '" data-filter="all">全部</button>';
+  topics.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-tag' + (activeFilter === t ? ' active' : '');
+    btn.dataset.filter = t;
+    btn.textContent = t;
+    container.appendChild(btn);
+  });
+  container.querySelectorAll('.filter-tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      onFilter(btn.dataset.filter);
+    });
+  });
+}
+
+// ============================================================
+// ARTICLE CARDS
+// ============================================================
+function getCompletedCount(articleId, totalParas) {
+  const c = state.completedParagraphs[articleId];
+  if (!c) return 0;
+  return c.length;
+}
+
+function renderArticleCard(article) {
+  const card = document.createElement('div');
+  card.className = 'article-card fade-in';
+  const completed = getCompletedCount(article.id, article.paragraphs.length);
+  card.innerHTML = `
+    <span class="source-tag" data-source="${escHtml(article.source)}">${escHtml(article.source)}</span>
+    <div class="title-zh">${escHtml(article.titleZh)}</div>
+    <div class="title-en">${escHtml(article.title)}</div>
+    <div class="meta-row">
+      <span>日期: ${escHtml(article.articleDate)}</span>
+      <span>主题: ${escHtml(article.topic)}</span>
+      <span>难度: ${escHtml(article.difficulty)}</span>
+    </div>
+    <div class="summary-zh">${escHtml(article.summary)}</div>
+    <div class="progress-badge">已完成 ${completed}/${article.paragraphs.length} 段</div>
+  `;
+  card.addEventListener('click', () => selectArticle(article.id));
+  return card;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function filterArticles(articles, search, topic) {
+  let result = articles;
+  if (topic && topic !== 'all') {
+    result = result.filter(a => a.topic === topic);
+  }
+  if (search) {
+    const q = search.toLowerCase();
+    result = result.filter(a =>
+      (a.title && a.title.toLowerCase().includes(q)) ||
+      (a.titleZh && a.titleZh.toLowerCase().includes(q))
+    );
+  }
+  return result;
+}
+
+// Home: show latest 3
+let homeFilter = 'all';
+let homeSearch = '';
+
+function renderHomeArticles() {
+  const list = document.getElementById('articleList');
+  const all = getAllArticles();
+  const filtered = filterArticles(all, homeSearch, homeFilter);
+  filtered.sort((a, b) => (b.articleDate || '').localeCompare(a.articleDate || ''));
+  // Show first 4
+  const display = filtered.slice(0, 4);
+  list.innerHTML = '';
+  display.forEach(a => list.appendChild(renderArticleCard(a)));
+  if (display.length === 0) {
+    list.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px">暂无匹配文章</p>';
+  }
+  document.getElementById('articleCount').textContent = `显示 ${display.length} 篇（共 ${filtered.length} 篇）`;
+}
+
+// All articles
+let allFilter = 'all';
+let allSearch = '';
+
+function renderAllArticles() {
+  const list = document.getElementById('allArticleList');
+  const all = getAllArticles();
+  const filtered = filterArticles(all, allSearch, allFilter);
+  filtered.sort((a, b) => (b.articleDate || '').localeCompare(a.articleDate || ''));
+  list.innerHTML = '';
+  filtered.forEach(a => list.appendChild(renderArticleCard(a)));
+  if (filtered.length === 0) {
+    list.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px">暂无匹配文章</p>';
+  }
+}
+
+// ============================================================
+// ARTICLE SELECTION & READER
+// ============================================================
+function selectArticle(id) {
+  const articles = getAllArticles();
+  const article = articles.find(a => a.id === id);
+  if (!article) return;
+
+  state.currentArticleId = id;
+  state.currentParagraphIdx = null;
+  saveState();
+
+  // Update meta
+  document.getElementById('currentArticleMeta').textContent = `${article.titleZh} | ${article.source}`;
+
+  // Update progress
+  updateProgress(article);
+
+  // Render paragraphs
+  const reader = document.getElementById('articleReader');
+  reader.innerHTML = '';
+  article.paragraphs.forEach((para, idx) => {
+    const block = document.createElement('div');
+    const isCompleted = (state.completedParagraphs[id] || []).includes(idx);
+    block.className = 'paragraph-block' + (isCompleted ? ' completed' : '');
+    block.innerHTML = `
+      <div class="paragraph-head">
+        <span class="para-num">第 ${idx + 1} 段</span>
+        <button class="btn primary" onclick="selectParagraph(${idx})">练这一段</button>
+      </div>
+      <div class="paragraph-text">${escHtml(para)}</div>
+    `;
+    reader.appendChild(block);
+  });
+
+  // Navigate to step 2
+  goStep(2);
+
+  // Reset practice
+  resetPractice();
+}
+
+function updateProgress(article) {
+  const total = article.paragraphs.length;
+  const completed = getCompletedCount(article.id, total);
+  const pct = total > 0 ? (completed / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `已完成 ${completed}/${total} 段`;
+}
+
+// ============================================================
+// PARAGRAPH PRACTICE
+// ============================================================
+function selectParagraph(idx) {
+  const articles = getAllArticles();
+  const article = articles.find(a => a.id === state.currentArticleId);
+  if (!article) return;
+
+  state.currentParagraphIdx = idx;
+  saveState();
+
+  const paraText = article.paragraphs[idx];
+  const refText = getReferenceText(article, idx);
+  const technique = article.techniqueNotes ? article.techniqueNotes[idx] : '';
+
+  document.getElementById('currentParagraphMeta').textContent = `${article.titleZh} · 第 ${idx + 1} 段`;
+  document.getElementById('practiceSource').textContent = paraText;
+  document.getElementById('techniqueHint').textContent = technique ? `📝 本段提示：${technique}` : '';
+  document.getElementById('referenceText').textContent = refText;
+
+  // Load saved translation
+  const savedTrans = state.translations[article.id] ? state.translations[article.id][idx] : '';
+  document.getElementById('myTranslation').value = savedTrans || '';
+
+  // Hide reference
+  document.getElementById('referencePanel').classList.add('hidden');
+  document.getElementById('toggleReferenceBtn').textContent = '展开参考译文';
+
+  // Load review
+  loadReview(article.id, idx);
+
+  // Reset analysis
+  resetAnalysis();
+
+  // Activate progressive sections
+  document.getElementById('analysisSection').classList.remove('active');
+  document.getElementById('reviewSection').classList.remove('active');
+
+  // Navigate to step 3
+  goStep(3);
+
+  // Update rule cards
+  renderRuleCards(article, idx);
+}
+
+function resetPractice() {
+  document.getElementById('currentParagraphMeta').textContent = '';
+  document.getElementById('practiceSource').textContent = '请先从上方文章中选择一段开始练习。';
+  document.getElementById('techniqueHint').textContent = '';
+  document.getElementById('myTranslation').value = '';
+  document.getElementById('referenceText').textContent = '';
+  document.getElementById('referencePanel').classList.add('hidden');
+  document.getElementById('toggleReferenceBtn').textContent = '展开参考译文';
+  resetAnalysis();
+}
+
+function resetAnalysis() {
+  document.getElementById('analysisSummary').textContent = '完成一段翻译后，点击"开始对照分析"查看差异与建议。';
+  document.getElementById('issueTags').innerHTML = '';
+  document.getElementById('sentenceDiffContainer').innerHTML = '';
+  document.getElementById('suggestions').innerHTML = '';
+}
+
+// ============================================================
+// TOGGLE REFERENCE
+// ============================================================
+document.getElementById('toggleReferenceBtn').addEventListener('click', () => {
+  const panel = document.getElementById('referencePanel');
+  const btn = document.getElementById('toggleReferenceBtn');
+  if (panel.classList.contains('hidden')) {
+    // Update reference text with latest (may include custom)
+    const articles = getAllArticles();
+    const article = articles.find(a => a.id === state.currentArticleId);
+    if (article && state.currentParagraphIdx !== null) {
+      document.getElementById('referenceText').textContent = getReferenceText(article, state.currentParagraphIdx);
+    }
+    panel.classList.remove('hidden');
+    btn.textContent = '收起参考译文';
+  } else {
+    panel.classList.add('hidden');
+    btn.textContent = '展开参考译文';
+  }
+});
+
+// ============================================================
+// GET REFERENCE TEXT (checks customTranslations first for built-in articles)
+// ============================================================
+function getReferenceText(article, paraIdx) {
+  const builtInIds = window.ARTICLES.map(a => a.id);
+  if (builtInIds.includes(article.id)) {
+    const key = article.id + '-' + paraIdx;
+    if (state.customTranslations && state.customTranslations[key]) {
+      return state.customTranslations[key];
+    }
+  } else {
+    // For fetched articles, check if referenceTranslations was updated directly
+  }
+  return article.referenceTranslations ? article.referenceTranslations[paraIdx] : '';
+}
+
+// ============================================================
+// SAVE AS REFERENCE TRANSLATION
+// ============================================================
+// ============================================================
+// DIFF ANALYSIS
+// ============================================================
+document.getElementById('analyzeBtn').addEventListener('click', () => {
+  const myText = document.getElementById('myTranslation').value.trim();
+  if (!myText) {
+    showToast('请先输入你的译文再分析', 'feedback');
+    return;
+  }
+  if (state.currentArticleId === null || state.currentParagraphIdx === null) {
+    showToast('请先选择一段进行练习', 'feedback');
+    return;
+  }
+
+  const articles = getAllArticles();
+  const article = articles.find(a => a.id === state.currentArticleId);
+  if (!article) return;
+
+  const idx = state.currentParagraphIdx;
+  const refText = getReferenceText(article, idx);
+
+  // Save translation
+  if (!state.translations[article.id]) state.translations[article.id] = {};
+  state.translations[article.id][idx] = myText;
+
+  // Mark completed
+  if (!state.completedParagraphs[article.id]) state.completedParagraphs[article.id] = [];
+  if (!state.completedParagraphs[article.id].includes(idx)) {
+    state.completedParagraphs[article.id].push(idx);
+  }
+  autoSave();
+
+  // Update progress
+  updateProgress(article);
+
+  // Update paragraph blocks (mark completed)
+  const blocks = document.querySelectorAll('.paragraph-block');
+  if (blocks[idx]) blocks[idx].classList.add('completed');
+
+  // Re-render home cards
+  renderHomeArticles();
+
+  // Perform analysis
+  performAnalysis(myText, refText);
+
+  // Activate sections
+  document.getElementById('analysisSection').classList.add('active');
+  document.getElementById('reviewSection').classList.add('active');
+
+  // Navigate to step 4
+  goStep(4);
+});
+
+function performAnalysis(myText, refText) {
+  const container = document.getElementById('sentenceDiffContainer');
+  container.innerHTML = '';
+
+  if (!refText || refText.startsWith('【待补充')) {
+    document.getElementById('analysisSummary').textContent = '参考译文尚未补充，仅展示你的译文。';
+    container.innerHTML = '<div class="diff-box">' + escHtml(myText) + '</div>';
+    document.getElementById('issueTags').innerHTML = '';
+    document.getElementById('suggestions').innerHTML = '<li>参考译文尚未补充，暂无法生成对比建议。你可以先完成复盘笔记。</li>';
+    return;
+  }
+
+  // 按句拆分（中文句号、问号、感叹号、分号）
+  const splitSentences = (text) => {
+    const parts = text.split(/(?<=[。！？；])/).map(s => s.trim()).filter(Boolean);
+    return parts.length > 0 ? parts : [text];
+  };
+
+  const mySents = splitSentences(myText);
+  const refSents = splitSentences(refText);
+
+  // 词组提取（中文2-4字词组）
+  const extractPhrases = (text) => {
+    const phrases = new Set();
+    const clean = text.replace(/[，。！？、；：""''（）【】\s]/g, '');
+    for (let len = 2; len <= 4; len++) {
+      for (let i = 0; i <= clean.length - len; i++) {
+        phrases.add(clean.substring(i, i + len));
+      }
+    }
+    return phrases;
+  };
+
+  // 计算两个句子的相似度（基于词组重叠）
+  const sentSimilarity = (a, b) => {
+    if (!a || !b) return 0;
+    const pa = extractPhrases(a);
+    const pb = extractPhrases(b);
+    if (pa.size === 0 || pb.size === 0) return 0;
+    let common = 0;
+    pa.forEach(p => { if (pb.has(p)) common++; });
+    return (2 * common) / (pa.size + pb.size);
+  };
+
+  // 对齐我的句子和参考句子（贪心匹配）
+  const pairs = [];
+  const usedRef = new Set();
+
+  mySents.forEach((ms, mi) => {
+    let bestIdx = -1, bestSim = 0;
+    refSents.forEach((rs, ri) => {
+      if (usedRef.has(ri)) return;
+      const sim = sentSimilarity(ms, rs);
+      if (sim > bestSim) { bestSim = sim; bestIdx = ri; }
+    });
+    if (bestIdx >= 0 && bestSim > 0.1) {
+      pairs.push({ my: ms, ref: refSents[bestIdx], sim: bestSim, myIdx: mi, refIdx: bestIdx });
+      usedRef.add(bestIdx);
+    } else {
+      pairs.push({ my: ms, ref: null, sim: 0, myIdx: mi, refIdx: -1 });
+    }
+  });
+  // 参考中未匹配的句子
+  refSents.forEach((rs, ri) => {
+    if (!usedRef.has(ri)) {
+      pairs.push({ my: null, ref: rs, sim: 0, myIdx: -1, refIdx: ri });
+    }
+  });
+  // 按出现顺序排
+  pairs.sort((a, b) => {
+    const ai = a.myIdx >= 0 ? a.myIdx : a.refIdx + 100;
+    const bi = b.myIdx >= 0 ? b.myIdx : b.refIdx + 100;
+    return ai - bi;
+  });
+
+  // 高亮词级差异
+  const highlightWordDiff = (myS, refS) => {
+    if (!myS || !refS) return { myHtml: escHtml(myS || ''), refHtml: escHtml(refS || '') };
+    const myPhrases = extractPhrases(myS);
+    const refPhrases = extractPhrases(refS);
+
+    // 在我的译文中，标出参考中没有的词组（用红色）
+    // 在参考译文中，标出我没有的词组（用蓝色）
+    const markDiff = (text, ownPhrases, otherPhrases) => {
+      const clean = text.replace(/[，。！？、；：""''（）【】\s]/g, '');
+      const diffChars = new Set();
+      for (let len = 2; len <= 3; len++) {
+        for (let i = 0; i <= clean.length - len; i++) {
+          const phrase = clean.substring(i, i + len);
+          if (!otherPhrases.has(phrase)) {
+            for (let j = i; j < i + len; j++) diffChars.add(j);
+          }
+        }
+      }
+      // 把原文按字符标记
+      let html = '';
+      let inDiff = false;
+      let cleanIdx = 0;
+      for (const ch of text) {
+        const isPunct = /[，。！？、；：""''（）【】\s]/.test(ch);
+        if (isPunct) {
+          if (inDiff) { html += '</mark>'; inDiff = false; }
+          html += escHtml(ch);
+        } else {
+          const isDiff = diffChars.has(cleanIdx);
+          if (isDiff && !inDiff) { html += '<mark class="diff-del">'; inDiff = true; }
+          else if (!isDiff && inDiff) { html += '</mark>'; inDiff = false; }
+          html += escHtml(ch);
+          cleanIdx++;
+        }
+      }
+      if (inDiff) html += '</mark>';
+      return html;
+    };
+
+    return {
+      myHtml: markDiff(myS, myPhrases, refPhrases),
+      refHtml: markDiff(refS, refPhrases, myPhrases)
+    };
+  };
+
+  // 生成逐句对照卡片
+  let goodCount = 0, partialCount = 0, diffCount = 0;
+  const allSuggestions = [];
+  let pairNum = 0;
+
+  pairs.forEach(p => {
+    pairNum++;
+    const card = document.createElement('div');
+    card.className = 'sentence-pair';
+    card.dataset.idx = '第 ' + pairNum + ' 句';
+
+    let matchClass = 'match-diff';
+    if (p.sim > 0.5) { matchClass = 'match-good'; goodCount++; }
+    else if (p.sim > 0.25) { matchClass = 'match-partial'; partialCount++; }
+    else { diffCount++; }
+    card.classList.add(matchClass);
+
+    if (p.my && p.ref) {
+      const { myHtml, refHtml } = highlightWordDiff(p.my, p.ref);
+      card.innerHTML =
+        '<div><div class="sp-label">🖊 我的译文</div><div class="sp-mine">' + myHtml + '</div></div>' +
+        '<div><div class="sp-label">📖 参考译文</div><div class="sp-ref">' + refHtml + '</div></div>';
+
+      // 生成改进建议
+      if (p.sim < 0.5) {
+        const myPh = extractPhrases(p.my);
+        const refPh = extractPhrases(p.ref);
+        const refOnly = [];
+        refPh.forEach(ph => { if (!myPh.has(ph) && ph.length >= 2) refOnly.push(ph); });
+        const uniqueRef = [...new Set(refOnly)].slice(0, 5);
+        if (uniqueRef.length > 0) {
+          const comment = document.createElement('div');
+          comment.className = 'sp-comment';
+          comment.textContent = '💡 参考用词：「' + uniqueRef.join('」「') + '」— 对比你的表达，看看哪个更贴合原文';
+          card.appendChild(comment);
+        }
+      }
+    } else if (p.my) {
+      card.innerHTML =
+        '<div><div class="sp-label">🖊 我的译文</div><div class="sp-mine">' + escHtml(p.my) + '</div></div>' +
+        '<div><div class="sp-label">📖 参考译文</div><div class="sp-ref" style="color:var(--text-muted)">（参考中无对应句）</div></div>';
+      const comment = document.createElement('div');
+      comment.className = 'sp-comment';
+      comment.textContent = '💡 这句在参考译文中没有直接对应。检查是否为增译，还是原文理解有差异。';
+      card.appendChild(comment);
+    } else if (p.ref) {
+      card.innerHTML =
+        '<div><div class="sp-label">🖊 我的译文</div><div class="sp-mine" style="color:var(--text-muted)">（你的译文中未涉及）</div></div>' +
+        '<div><div class="sp-label">📖 参考译文</div><div class="sp-ref">' + escHtml(p.ref) + '</div></div>';
+      const comment = document.createElement('div');
+      comment.className = 'sp-comment';
+      comment.textContent = '💡 这部分内容你可能遗漏了，看看参考是如何处理这一层意思的。';
+      card.appendChild(comment);
+    }
+
+    container.appendChild(card);
+  });
+
+  // 总结
+  const total = pairs.length;
+  let summaryText = '';
+  if (goodCount === total) summaryText = '🎉 太棒了！所有句子都与参考高度吻合！';
+  else if (goodCount > total * 0.6) summaryText = '🌟 大部分句子翻译得很好，有 ' + diffCount + ' 处可以再打磨。';
+  else if (partialCount + goodCount > total * 0.5) summaryText = '📊 有一定基础，' + diffCount + ' 处差异较大，值得逐句对比学习。';
+  else summaryText = '📝 与参考差异较大，但这正是学习的好机会！逐句对比，收获会很大。';
+  document.getElementById('analysisSummary').textContent = summaryText;
+
+  // Issue tags
+  const lenRatio = myText.length / Math.max(refText.length, 1);
+  const issues = [];
+  if (lenRatio < 0.7) issues.push('译文偏短');
+  else if (lenRatio > 1.4) issues.push('译文偏长');
+  if (diffCount > 0) issues.push(diffCount + ' 处差异较大');
+  if (goodCount > 0) issues.push(goodCount + ' 处高度吻合');
+  if (myText.includes('的的') || myText.includes('了了')) issues.push('可能有重复字');
+  if (!myText.match(/[。！？]$/)) issues.push('缺少句末标点');
+  if (issues.length === 0) issues.push('整体良好');
+
+  const tagsEl = document.getElementById('issueTags');
+  tagsEl.innerHTML = '';
+  issues.forEach(issue => {
+    const span = document.createElement('span');
+    span.className = 'issue-tag';
+    span.textContent = issue;
+    tagsEl.appendChild(span);
+  });
+
+  // 改进建议
+  const suggestions = [];
+  if (diffCount > 0) suggestions.push('重点关注红色边框（差异大）的句子，对比你和参考的用词选择、句式结构。');
+  if (lenRatio < 0.7) suggestions.push('你的译文偏短，可能省略了部分信息。检查是否有遗漏的关键内容。');
+  if (lenRatio > 1.4) suggestions.push('你的译文偏长，看看是否有冗余表达可以精简。');
+  suggestions.push('逐句对比高亮处，关注：① 专业术语 ② 句式（长句拆分/合并）③ 语序调整。');
+  suggestions.push('在复盘区记下你觉得参考中可以借鉴的好表达，下次翻译时试着用上。');
+
+  const sugList = document.getElementById('suggestions');
+  sugList.innerHTML = '';
+  suggestions.forEach(s => {
+    const li = document.createElement('li');
+    li.textContent = s;
+    sugList.appendChild(li);
+  });
+}
+
+// ============================================================
+// REVIEW
+// ============================================================
+function loadReview(articleId, paraIdx) {
+  const key = articleId + '_' + paraIdx;
+  const review = state.reviews[key] || {};
+  document.getElementById('reviewProblem').value = review.problem || '';
+  document.getElementById('reviewLearned').value = review.learned || '';
+  document.getElementById('reviewPattern').value = review.pattern || '';
+  document.getElementById('reviewReminder').value = review.reminder || '';
+  document.getElementById('saveHint').textContent = '';
+}
+
+function saveReview() {
+  if (state.currentArticleId === null || state.currentParagraphIdx === null) {
+    showToast('请先选择一段进行练习', 'feedback');
+    return;
+  }
+  const key = state.currentArticleId + '_' + state.currentParagraphIdx;
+  state.reviews[key] = {
+    problem: document.getElementById('reviewProblem').value,
+    learned: document.getElementById('reviewLearned').value,
+    pattern: document.getElementById('reviewPattern').value,
+    reminder: document.getElementById('reviewReminder').value
+  };
+  autoSave();
+  document.getElementById('saveHint').textContent = '已保存 ✓';
+  showToast('复盘已保存', 'feedback');
+}
+
+document.getElementById('saveReviewBtn').addEventListener('click', saveReview);
+
+// Auto-save on input
+let autoSaveTimer = null;
+function setupAutoSave() {
+  const fields = ['myTranslation', 'reviewProblem', 'reviewLearned', 'reviewPattern', 'reviewReminder'];
+  fields.forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = setTimeout(() => {
+        // Save translation
+        if (id === 'myTranslation' && state.currentArticleId && state.currentParagraphIdx !== null) {
+          if (!state.translations[state.currentArticleId]) state.translations[state.currentArticleId] = {};
+          state.translations[state.currentArticleId][state.currentParagraphIdx] = document.getElementById('myTranslation').value;
+        }
+        // Save review
+        if (id !== 'myTranslation' && state.currentArticleId && state.currentParagraphIdx !== null) {
+          const key = state.currentArticleId + '_' + state.currentParagraphIdx;
+          if (!state.reviews[key]) state.reviews[key] = {};
+          state.reviews[key].problem = document.getElementById('reviewProblem').value;
+          state.reviews[key].learned = document.getElementById('reviewLearned').value;
+          state.reviews[key].pattern = document.getElementById('reviewPattern').value;
+          state.reviews[key].reminder = document.getElementById('reviewReminder').value;
+        }
+        autoSave();
+      }, 1500);
+    });
+  });
+}
+
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
+document.getElementById('exportJsonBtn').addEventListener('click', () => {
+  const data = {
+    version: 2,
+    exportDate: new Date().toISOString(),
+    state: state,
+    articles: window.ARTICLES.map(a => a.id)
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `翻译练习备份_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('备份已导出', 'feedback');
+});
+
+document.getElementById('importJsonBtn').addEventListener('click', () => {
+  document.getElementById('importJsonInput').click();
+});
+
+document.getElementById('importJsonInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (data.state) {
+        Object.assign(state, data.state);
+        saveState();
+        showToast('备份已导入，刷新页面中...', 'feedback');
+        setTimeout(() => location.reload(), 1000);
+      }
+    } catch (err) {
+      showToast('导入失败：文件格式不正确', 'feedback');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// Export Word (simple HTML-based .doc)
+document.getElementById('exportWordBtn').addEventListener('click', () => {
+  if (!state.currentArticleId) {
+    showToast('请先选择一篇文章', 'feedback');
+    return;
+  }
+  const articles = getAllArticles();
+  const article = articles.find(a => a.id === state.currentArticleId);
+  if (!article) return;
+
+  let html = `<html><head><meta charset="utf-8"><title>${article.titleZh}</title></head><body>`;
+  html += `<h1>${article.titleZh}</h1>`;
+  html += `<h2>${article.title}</h2>`;
+  html += `<p>来源: ${article.source} | 日期: ${article.articleDate}</p><hr>`;
+
+  article.paragraphs.forEach((para, idx) => {
+    html += `<h3>第 ${idx + 1} 段</h3>`;
+    html += `<p><strong>原文：</strong>${para}</p>`;
+    const myTrans = state.translations[article.id] ? state.translations[article.id][idx] : '';
+    if (myTrans) html += `<p><strong>我的译文：</strong>${myTrans}</p>`;
+    const ref = getReferenceText(article, idx);
+    if (ref) html += `<p><strong>参考译文：</strong>${ref}</p>`;
+    const reviewKey = article.id + '_' + idx;
+    const review = state.reviews[reviewKey];
+    if (review) {
+      html += '<p><strong>复盘：</strong></p><ul>';
+      if (review.problem) html += `<li>我的问题：${review.problem}</li>`;
+      if (review.learned) html += `<li>学到的表达：${review.learned}</li>`;
+      if (review.pattern) html += `<li>可偷的句式：${review.pattern}</li>`;
+      if (review.reminder) html += `<li>下次提醒：${review.reminder}</li>`;
+      html += '</ul>';
+    }
+    html += '<hr>';
+  });
+  html += '</body></html>';
+
+  const blob = new Blob([html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${article.titleZh}_练习记录.doc`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Word 已导出', 'feedback');
+});
+
+// Export PDF (print)
+document.getElementById('exportPdfBtn').addEventListener('click', () => {
+  showToast('正在打开打印对话框，请选择「保存为PDF」', 'feedback');
+  setTimeout(() => window.print(), 500);
+});
+
+// ============================================================
+// RULE CHEAT SHEET
+// ============================================================
+const RULE_DATA = [
+  { title: '长句拆分', content: '遇到长句先找主干（主谓宾），再处理修饰成分。一个英文长句可以拆成 2-3 个中文短句。' },
+  { title: '主被动转换', content: '英文多用被动语态，中文多用主动。被动句常需还原施事者或改为无主句。' },
+  { title: '增译与省译', content: '增译：补出原文隐含信息。省译：删掉中文读者不需要的冗余。关键是保持语义完整。' },
+  { title: '词性转换', content: '名词→动词、形容词→动词等。如 "the arrival of" → "到来" / "抵达"。' },
+  { title: '顺译与倒译', content: '原文语序合理可顺译；如果先说结果再说原因，中文可能需要调整顺序（倒译）。' },
+  { title: '术语统一', content: '同一篇文章内术语要前后一致。首次出现可在括号里注明英文原词。' },
+  { title: '抽象表达落地', content: '英文常用抽象名词，中文倾向用具体的动作或场景。如 "resilience" → "抵御风险的能力"。' },
+  { title: '引语处理', content: '中文习惯把说话者放在引语前面或中间，注意冒号和引号的位置。' },
+  { title: '数字与单位', content: '注意英制/公制转换、大数字的"万/亿"表达。百分比和货币符号按中文规范处理。' },
+  { title: '逻辑显化', content: '英文靠语序和从句表达逻辑，中文常需加"因此""然而""所以"等连接词使逻辑更清晰。' },
+];
+
+function renderRuleCards(article, paraIdx) {
+  const container = document.getElementById('ruleCards');
+  container.innerHTML = '';
+
+  // Show technique + terminology hints specific to this paragraph
+  if (article && article.techniqueNotes && article.techniqueNotes[paraIdx]) {
+    const card = document.createElement('div');
+    card.className = 'rule-card';
+    card.innerHTML = `<strong>📝 本段提示</strong><br>${escHtml(article.techniqueNotes[paraIdx])}`;
+    container.appendChild(card);
+  }
+
+  if (article && article.terminologyHints && article.terminologyHints[paraIdx] && article.terminologyHints[paraIdx].length > 0) {
+    const card = document.createElement('div');
+    card.className = 'rule-card';
+    card.innerHTML = `<strong>📖 术语参考</strong><br>${article.terminologyHints[paraIdx].map(t => escHtml(t)).join(' / ')}`;
+    container.appendChild(card);
+  }
+
+  // Show general rules
+  RULE_DATA.forEach(rule => {
+    const card = document.createElement('div');
+    card.className = 'rule-card';
+    card.innerHTML = `<strong>${escHtml(rule.title)}</strong><br>${escHtml(rule.content)}`;
+    container.appendChild(card);
+  });
+}
+
+// Rule panel toggle
+document.getElementById('ruleToggleBtn').addEventListener('click', () => {
+  const panel = document.getElementById('rulePanel');
+  panel.classList.toggle('open');
+  panel.setAttribute('aria-hidden', !panel.classList.contains('open'));
+  // If opening with no specific rules, show general
+  if (panel.classList.contains('open') && document.getElementById('ruleCards').children.length === 0) {
+    renderRuleCards(null, null);
+  }
+});
+document.getElementById('closeRuleBtn').addEventListener('click', () => {
+  document.getElementById('rulePanel').classList.remove('open');
+  document.getElementById('rulePanel').setAttribute('aria-hidden', 'true');
+});
+
+// ============================================================
+// VIEW SWITCHING
+// ============================================================
+document.getElementById('viewAllArticlesBtn').addEventListener('click', () => {
+  document.getElementById('homeArticleSection').classList.add('hidden');
+  document.getElementById('allArticlesSection').classList.remove('hidden');
+  renderFilterTags(document.getElementById('allFilterTags'), allFilter, f => { allFilter = f; renderAllArticles(); });
+  renderAllArticles();
+  document.getElementById('allArticlesSection').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('backHomeBtn').addEventListener('click', () => {
+  document.getElementById('allArticlesSection').classList.add('hidden');
+  document.getElementById('homeArticleSection').classList.remove('hidden');
+});
+
+// Search
+document.getElementById('articleSearchInput').addEventListener('input', (e) => {
+  homeSearch = e.target.value;
+  renderHomeArticles();
+});
+
+document.getElementById('allArticleSearchInput').addEventListener('input', (e) => {
+  allSearch = e.target.value;
+  renderAllArticles();
+});
+
+// ============================================================
+// FETCH NEWS (RSS via CORS proxy)
+// ============================================================
+const RSS_FEEDS = {
+  economist: { name: 'The Economist', url: 'https://www.economist.com/international/rss.xml' },
+  nyt: { name: 'NYT', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' },
+  bbc: { name: 'BBC', url: 'http://feeds.bbci.co.uk/news/world/rss.xml' },
+  guardian: { name: 'The Guardian', url: 'https://www.theguardian.com/world/rss' },
+  wapo: { name: 'Washington Post', url: 'https://feeds.washingtonpost.com/rss/world' },
+  ft: { name: 'Financial Times', url: 'https://www.ft.com/rss/home' }
+};
+
+const CORS_PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${url}`
+];
+
+document.getElementById('fetchNewsBtn').addEventListener('click', () => {
+  document.getElementById('fetchNewsModal').classList.remove('hidden');
+});
+document.getElementById('closeFetchModal').addEventListener('click', () => {
+  document.getElementById('fetchNewsModal').classList.add('hidden');
+});
+// Close modal on overlay click
+document.getElementById('fetchNewsModal').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) {
+    document.getElementById('fetchNewsModal').classList.add('hidden');
+  }
+});
+
+document.getElementById('startFetchBtn').addEventListener('click', async () => {
+  const statusEl = document.getElementById('fetchStatus');
+  const progressFill = document.getElementById('fetchProgressFill');
+  const btn = document.getElementById('startFetchBtn');
+
+  // Get selected feeds
+  const checkboxes = document.querySelectorAll('#rssSourceList input[type="checkbox"]:checked');
+  const selectedFeeds = [...checkboxes].map(cb => cb.dataset.feed);
+  const count = parseInt(document.getElementById('fetchCountInput').value) || 3;
+
+  if (selectedFeeds.length === 0) {
+    statusEl.textContent = '⚠️ 请至少选择一个来源';
+    return;
+  }
+
+  btn.disabled = true;
+  statusEl.textContent = '🔄 正在连接 RSS 源...';
+  progressFill.style.width = '0%';
+
+  let allItems = [];
+  let processedFeeds = 0;
+
+  for (const feedKey of selectedFeeds) {
+    const feed = RSS_FEEDS[feedKey];
+    if (!feed) continue;
+
+    statusEl.textContent = `🔄 正在抓取 ${feed.name}...`;
+    let fetched = false;
+
+    for (let proxyIdx = 0; proxyIdx < CORS_PROXIES.length && !fetched; proxyIdx++) {
+      try {
+        const proxyUrl = CORS_PROXIES[proxyIdx](feed.url);
+        const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+        if (!response.ok) continue;
+        const text = await response.text();
+        const items = parseRSS(text, feed.name);
+        allItems = allItems.concat(items);
+        fetched = true;
+        statusEl.textContent = `✅ ${feed.name}: 获取到 ${items.length} 篇`;
+      } catch (e) {
+        // Try next proxy
+      }
+    }
+
+    if (!fetched) {
+      statusEl.textContent = `⚠️ ${feed.name}: 所有代理均失败，跳过`;
+    }
+
+    processedFeeds++;
+    progressFill.style.width = (processedFeeds / selectedFeeds.length * 60) + '%';
+    await sleep(300);
+  }
+
+  if (allItems.length === 0) {
+    statusEl.textContent = '❌ 未能获取任何文章，请检查网络后重试。';
+    btn.disabled = false;
+    progressFill.style.width = '0%';
+    return;
+  }
+
+  // Pick top N items
+  const selected = allItems.slice(0, count);
+  statusEl.textContent = `📝 正在处理 ${selected.length} 篇文章...`;
+
+  // No auto-translation: keep original English title/summary
+  selected.forEach(item => {
+    item.titleZh = item.title; // display English title since no translation
+    item.summary = item.description || '';
+  });
+
+  progressFill.style.width = '95%';
+
+  // Convert to article format and add
+  const newArticles = selected.map(item => ({
+    id: 'rss-' + hashCode(item.title + item.link),
+    title: item.title,
+    titleZh: item.titleZh || item.title,
+    source: item.source,
+    articleDate: item.pubDate || new Date().toISOString().slice(0, 10),
+    topic: '外刊',
+    difficulty: '待评估',
+    summary: item.summary || item.description || '',
+    paragraphs: item.paragraphs || [item.description || item.title],
+    referenceTranslations: (item.paragraphs || [item.description || item.title]).map(() => '【待翻译】RSS 抓取文章暂无参考译文。'),
+    techniqueNotes: (item.paragraphs || [item.description || item.title]).map(() => '通读理解：先把握整段大意，再逐句翻译。')
+  }));
+
+  // Add to fetched articles (avoid duplicates)
+  const existingIds = new Set(getAllArticles().map(a => a.id));
+  let addedCount = 0;
+  newArticles.forEach(a => {
+    if (!existingIds.has(a.id)) {
+      state.fetchedArticles.push(a);
+      addedCount++;
+    }
+  });
+
+  saveState();
+  progressFill.style.width = '100%';
+  statusEl.textContent = `🎉 完成！新增 ${addedCount} 篇文章。`;
+
+  // Re-render
+  renderFilterTags(document.getElementById('filterTags'), homeFilter, f => { homeFilter = f; renderHomeArticles(); });
+  renderHomeArticles();
+
+  btn.disabled = false;
+  setTimeout(() => {
+    document.getElementById('fetchNewsModal').classList.add('hidden');
+    showToast(`成功获取 ${addedCount} 篇新文章！`, 'feedback');
+  }, 1500);
+});
+
+function parseRSS(xmlText, sourceName) {
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlText, 'text/xml');
+    const items = [];
+
+    // Handle RSS 2.0
+    const rssItems = doc.querySelectorAll('item');
+    rssItems.forEach(item => {
+      const title = item.querySelector('title')?.textContent?.trim() || '';
+      const link = item.querySelector('link')?.textContent?.trim() || '';
+      const desc = item.querySelector('description')?.textContent?.trim() || '';
+      const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+      // Clean HTML from description
+      const cleanDesc = desc.replace(/<[^>]*>/g, '').trim();
+
+      // Split into paragraphs
+      const paragraphs = cleanDesc.split(/\n\n+/).filter(p => p.trim().length > 20);
+
+      if (title) {
+        items.push({
+          title,
+          link,
+          description: cleanDesc.slice(0, 300),
+          paragraphs: paragraphs.length > 0 ? paragraphs : [cleanDesc || title],
+          pubDate: parsePubDate(pubDate),
+          source: sourceName
+        });
+      }
+    });
+
+    // Handle Atom
+    if (items.length === 0) {
+      const entries = doc.querySelectorAll('entry');
+      entries.forEach(entry => {
+        const title = entry.querySelector('title')?.textContent?.trim() || '';
+        const link = entry.querySelector('link')?.getAttribute('href') || '';
+        const summary = entry.querySelector('summary')?.textContent?.trim() || entry.querySelector('content')?.textContent?.trim() || '';
+        const published = entry.querySelector('published')?.textContent?.trim() || entry.querySelector('updated')?.textContent?.trim() || '';
+        const cleanSummary = summary.replace(/<[^>]*>/g, '').trim();
+
+        if (title) {
+          items.push({
+            title,
+            link,
+            description: cleanSummary.slice(0, 300),
+            paragraphs: [cleanSummary || title],
+            pubDate: parsePubDate(published),
+            source: sourceName
+          });
+        }
+      });
+    }
+
+    return items;
+  } catch (e) {
+    console.warn('RSS parse error:', e);
+    return [];
+  }
+}
+
+function parsePubDate(dateStr) {
+  try {
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  } catch (e) {}
+  return new Date().toISOString().slice(0, 10);
+}
+
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ============================================================
+// STEP NAVIGATION
+// ============================================================
+let currentStep = 1;
+function goStep(n) {
+  currentStep = n;
+  // Hide all step panels
+  document.querySelectorAll('.step-panel').forEach(el => el.classList.remove('active-step'));
+  // Show target step
+  const target = document.getElementById('step-' + n);
+  if (target) target.classList.add('active-step');
+  // Update nav button states
+  document.querySelectorAll('.step-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.dataset.step) === n) btn.classList.add('active');
+  });
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  loadState();
+  // 强制清理所有 MYMEMORY 坏数据并保存
+  if (state.fetchedArticles && state.fetchedArticles.length > 0) {
+    const before = state.fetchedArticles.length;
+    state.fetchedArticles = state.fetchedArticles.filter(a => {
+      const str = JSON.stringify(a);
+      return !str.toUpperCase().includes('MYMEMORY') && !str.toUpperCase().includes('TRANSLATED.NET');
+    });
+    if (state.fetchedArticles.length !== before) {
+      saveState();
+      console.log(`已清理 ${before - state.fetchedArticles.length} 篇包含翻译API错误的文章`);
+    }
+  }
+  renderFilterTags(document.getElementById('filterTags'), homeFilter, f => { homeFilter = f; renderHomeArticles(); });
+  renderHomeArticles();
+  setupAutoSave();
+  renderRuleCards(null, null);
+
+  // Initialize step navigation
+  goStep(1);
+
+  // If had a selected article, restore it
+  if (state.currentArticleId) {
+    const articles = getAllArticles();
+    const article = articles.find(a => a.id === state.currentArticleId);
+    if (article) {
+      document.getElementById('currentArticleMeta').textContent = `${article.titleZh} | ${article.source}`;
+      updateProgress(article);
+      const reader = document.getElementById('articleReader');
+      reader.innerHTML = '';
+      article.paragraphs.forEach((para, idx) => {
+        const block = document.createElement('div');
+        const isCompleted = (state.completedParagraphs[article.id] || []).includes(idx);
+        block.className = 'paragraph-block' + (isCompleted ? ' completed' : '');
+        block.innerHTML = `
+          <div class="paragraph-head">
+            <span class="para-num">第 ${idx + 1} 段</span>
+            <button class="btn primary" onclick="selectParagraph(${idx})">练这一段</button>
+          </div>
+          <div class="paragraph-text">${escHtml(para)}</div>
+        `;
+        reader.appendChild(block);
+      });
+      if (state.currentParagraphIdx !== null) {
+        selectParagraph(state.currentParagraphIdx);
+      }
+    }
+  }
+}
+
+init();
+</script>
 </body>
 </html>
